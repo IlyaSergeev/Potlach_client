@@ -4,6 +4,10 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="21" />
@@ -21,6 +25,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".CreatePotlachActivity"
+            android:label="@string/title_activity_create_potlach"
+            android:parentActivityName=".PotlachMainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ilya.sergeev.potlach.PotlachMainActivity" />
         </activity>
     </application>
 

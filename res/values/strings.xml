@@ -2,16 +2,18 @@
 <resources>
 
     <string name="app_name">Potlach</string>
-    
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="settings">Settings</string>
     <string name="create_ptlach_action">Create potlach</string>
-    
     <string name="user_name">User name</string>
     <string name="new_potlatchs">News</string>
     <string name="voted_potlaches">Voted</string>
     <string name="search_potlaches">Search</string>
     <string name="sign_out">Sign Out</string>
+    <string name="get_from_galery">Get from galery</string>
+    <string name="make_new_phote">Make new photo</string>
+    <string name="title_activity_create_potlach">CreatePotlachActivity</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

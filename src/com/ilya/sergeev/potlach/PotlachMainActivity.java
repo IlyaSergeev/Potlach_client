@@ -2,14 +2,18 @@ package com.ilya.sergeev.potlach;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 public class PotlachMainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks
 {
@@ -84,7 +88,7 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 	
 	private void showCreatePotlachDialog()
 	{
-		Toast.makeText(this, "Create potlach from:1), 2), 3)", Toast.LENGTH_LONG).show();
+		DialogHelper.showPhotoResourceDialog(this);
 	}
 	
 	public void onSectionAttached(SectionActionType actionType)
@@ -157,32 +161,26 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 			{
 				case POTLACH_MY:
 					resultFragment = new MyPotlachFragment();
-					// TODO set filter as MY POTLACHES
 					break;
 				
 				case POTLACH_WALL:
 					resultFragment = new PotlachWallFragment();
-					// TODO set filter as ALL POTLACHES
 					break;
 				
 				case POTLACH_VOTED:
 					resultFragment = new VotedPotlachFragment();
-					// TODO set filter as VOTED POTLACHES
 					break;
 				
 				case POTLACH_SEARCH:
 					resultFragment = new SearchFragment();
-					// TODO set filter as SEARCH FRAGMENT
 					break;
 				
 				case SETTINGS:
 					resultFragment = new SettingsFragment();
-					// TODO set filter as SETTINGS FRAGMENT
 					break;
 				
 				case POTLACH_CREATE:
 					resultFragment = new CreatePotlachFragment();
-					// TODO set filter as CREATE POTLACH FRAGMENT
 					break;
 				
 				default:
@@ -195,6 +193,40 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 			}
 			return resultFragment;
 		}
-		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if (resultCode == RESULT_OK)
+		{
+			if (requestCode == DialogHelper.SELECT_PHOTO_FROM_GALERY_REQUEST)
+			{	
+//				 Uri selectedImage = data.getData();
+//		            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+//
+//		            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+//		            cursor.moveToFirst();
+//
+//		            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//		            String filePath = cursor.getString(columnIndex);
+//		            cursor.close();
+				
+				Intent intent = new Intent(this, CreatePotlachActivity.class);
+				intent.putExtra(CreatePotlachActivity.PHOTO_PATH_ARG, data.getData());
+				startActivity(intent);
+				
+			}
+			if (requestCode == DialogHelper.CREATE_NEW_PHOTO_REQUEST)
+			{
+				Intent intent = new Intent(this, CreatePotlachActivity.class);
+				intent.putExtra(CreatePotlachActivity.PHOTO_BITMAP_ARG, (Parcelable) data.getExtras().get("data"));
+				startActivity(intent);
+			}
+		}
+		else
+		{
+			super.onActivityResult(requestCode, resultCode, data);
+		}
 	}
 }
