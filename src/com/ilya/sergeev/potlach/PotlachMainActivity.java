@@ -51,13 +51,24 @@ public class PotlachMainActivity extends ActionBarActivity
 		switch (number)
 		{
 			case 1:
-				mTitle = getString(R.string.title_section1);
+				mTitle = getString(R.string.user_name);
 				break;
 			case 2:
-				mTitle = getString(R.string.title_section2);
+				mTitle = getString(R.string.new_potlatchs);
 				break;
 			case 3:
-				mTitle = getString(R.string.title_section3);
+				mTitle = getString(R.string.voted_potlaches);
+				break;
+			case 4:
+				mTitle = getString(R.string.search_potlaches);
+				break;
+				
+			case 5:
+				mTitle = getString(R.string.settings);
+				break;
+				
+			case 6:
+				mTitle = getString(R.string.sign_out);
 				break;
 		}
 	}
@@ -74,9 +85,6 @@ public class PotlachMainActivity extends ActionBarActivity
 	{
 		if (!mNavigationDrawerFragment.isDrawerOpen())
 		{
-			// Only show items in the action bar relevant to this screen
-			// if the drawer is not showing. Otherwise, let the drawer
-			// decide what to show in the action bar.
 			getMenuInflater().inflate(R.menu.main, menu);
 			restoreActionBar();
 			return true;
@@ -93,6 +101,7 @@ public class PotlachMainActivity extends ActionBarActivity
 		int id = item.getItemId();
 		if (id == R.id.action_add_potlach)
 		{
+			//TODO create potlach
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -101,6 +110,7 @@ public class PotlachMainActivity extends ActionBarActivity
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
+	@Deprecated
 	public static class PlaceholderFragment extends Fragment
 	{
 		/**
