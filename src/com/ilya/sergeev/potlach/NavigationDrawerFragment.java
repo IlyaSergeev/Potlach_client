@@ -1,16 +1,16 @@
 package com.ilya.sergeev.potlach;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.app.Activity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class NavigationDrawerFragment extends Fragment
 {
@@ -100,7 +99,7 @@ public class NavigationDrawerFragment extends Fragment
 				android.R.layout.simple_list_item_1,
 				android.R.id.text1,
 				new String[] {
-						getString(R.string.user_name), //TODO insert real user name
+						getString(R.string.user_name), // TODO insert real user name
 						getString(R.string.new_potlatchs),
 						getString(R.string.voted_potlaches),
 						getString(R.string.search_potlaches),
@@ -138,10 +137,10 @@ public class NavigationDrawerFragment extends Fragment
 		actionBar.setHomeButtonEnabled(true);
 		
 		mDrawerToggle = new ActionBarDrawerToggle(
-				getActivity(), 
-				mDrawerLayout, 
-				R.string.navigation_drawer_open, 
-				R.string.navigation_drawer_close 
+				getActivity(),
+				mDrawerLayout,
+				R.string.navigation_drawer_open,
+				R.string.navigation_drawer_close
 				)
 				{
 					@Override
@@ -172,7 +171,7 @@ public class NavigationDrawerFragment extends Fragment
 							sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).commit();
 						}
 						
-						getActivity().supportInvalidateOptionsMenu(); 
+						getActivity().supportInvalidateOptionsMenu();
 					}
 				};
 		
@@ -231,7 +230,7 @@ public class NavigationDrawerFragment extends Fragment
 				
 			case 5:
 				return SectionActionType.SIGN_OUT;
-			
+				
 			default:
 				throw new IllegalArgumentException("Unknown menu section");
 		}
@@ -269,7 +268,7 @@ public class NavigationDrawerFragment extends Fragment
 	public void onConfigurationChanged(Configuration newConfig)
 	{
 		super.onConfigurationChanged(newConfig);
-
+		
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 	
@@ -294,8 +293,7 @@ public class NavigationDrawerFragment extends Fragment
 		
 		if (item.getItemId() == R.id.action_add_potlach)
 		{
-			//TODO make
-			Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
+			mCallbacks.onNavigationDrawerItemSelected(SectionActionType.POTLACH_CREATE);
 			return true;
 		}
 		
