@@ -110,7 +110,11 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 	{
 		if (mTempPhotoFile != null)
 		{
-			getContentResolver().delete(mTempPhotoFile, null, null);
+			File file = new File(mTempPhotoFile.getPath());
+			if (file.exists())
+			{
+				file.delete();
+			}
 			mTempPhotoFile = null;
 		}
 			
