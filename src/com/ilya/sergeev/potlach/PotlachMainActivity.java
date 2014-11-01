@@ -1,20 +1,14 @@
 package com.ilya.sergeev.potlach;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
-public class PotlachMainActivity extends ActionBarActivity
-		implements NavigationDrawerFragment.NavigationDrawerCallbacks
+public class PotlachMainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks
 {
 	private NavigationDrawerFragment mNavigationDrawerFragment;
 	
@@ -37,39 +31,53 @@ public class PotlachMainActivity extends ActionBarActivity
 	}
 	
 	@Override
-	public void onNavigationDrawerItemSelected(int position)
+	public void onNavigationDrawerItemSelected(SectionActionType actionType)
 	{
-		// update the main content by replacing fragments
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-				.commit();
+		switch (actionType)
+		{
+			case SIGN_OUT:
+				// TODO make sign out dialog
+				break;
+			
+			case POTLACH_CREATE:
+				// TODO make create potlach dialog
+				break;
+			
+			default:
+				FragmentManager fragmentManager = getSupportFragmentManager();
+				fragmentManager.beginTransaction()
+						.replace(R.id.container, FragmentFactory.getInstance(actionType))
+						.commit();
+				break;
+		}
 	}
 	
-	public void onSectionAttached(int number)
+	public void onSectionAttached(SectionActionType actionType)
 	{
-		switch (number)
+		switch (actionType)
 		{
-			case 1:
+			case POTLACH_MY:
 				mTitle = getString(R.string.user_name);
 				break;
-			case 2:
+			
+			case POTLACH_WALL:
 				mTitle = getString(R.string.new_potlatchs);
 				break;
-			case 3:
+			
+			case POTLACH_VOTED:
 				mTitle = getString(R.string.voted_potlaches);
 				break;
-			case 4:
+			
+			case POTLACH_SEARCH:
 				mTitle = getString(R.string.search_potlaches);
 				break;
-				
-			case 5:
+			
+			case SETTINGS:
 				mTitle = getString(R.string.settings);
 				break;
-				
-			case 6:
-				mTitle = getString(R.string.sign_out);
-				break;
+			
+			default:
+				mTitle = null;
 		}
 	}
 	
@@ -101,54 +109,60 @@ public class PotlachMainActivity extends ActionBarActivity
 		int id = item.getItemId();
 		if (id == R.id.action_add_potlach)
 		{
-			//TODO create potlach
+			// TODO create potlach
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	@Deprecated
-	public static class PlaceholderFragment extends Fragment
+	private static class FragmentFactory
 	{
-		/**
-		 * The fragment argument representing the section number for this fragment.
-		 */
-		private static final String ARG_SECTION_NUMBER = "section_number";
-		
-		/**
-		 * Returns a new instance of this fragment for the given section number.
-		 */
-		public static PlaceholderFragment newInstance(int sectionNumber)
+		public static PotlachContentFragment getInstance(SectionActionType actionType)
 		{
-			PlaceholderFragment fragment = new PlaceholderFragment();
+			PotlachContentFragment resultFragment = null;
 			Bundle args = new Bundle();
-			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-			fragment.setArguments(args);
-			return fragment;
+			switch (actionType)
+			{
+				case POTLACH_MY:
+					resultFragment = new MyPotlachFragment();
+					// TODO set filter as MY POTLACHES
+					break;
+				
+				case POTLACH_WALL:
+					resultFragment = new PotlachWallFragment();
+					// TODO set filter as ALL POTLACHES
+					break;
+				
+				case POTLACH_VOTED:
+					resultFragment = new VotedPotlachFragment();
+					// TODO set filter as VOTED POTLACHES
+					break;
+				
+				case POTLACH_SEARCH:
+					resultFragment = new SearchFragment();
+					// TODO set filter as SEARCH FRAGMENT
+					break;
+				
+				case SETTINGS:
+					resultFragment = new SettingsFragment();
+					// TODO set filter as SETTINGS FRAGMENT
+					break;
+				
+				case POTLACH_CREATE:
+					resultFragment = new CreatePotlachFragment();
+					// TODO set filter as CREATE POTLACH FRAGMENT
+					break;
+				
+				default:
+					throw new IllegalArgumentException("user click unknown menu section");
+			}
+			if (resultFragment != null)
+			{
+				args.putString(PotlachContentFragment.ARG_SECTION_NUMBER, actionType.name());
+				resultFragment.setArguments(args);
+			}
+			return resultFragment;
 		}
 		
-		public PlaceholderFragment()
-		{
-		}
-		
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState)
-		{
-			View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-			return rootView;
-		}
-		
-		@Override
-		public void onAttach(Activity activity)
-		{
-			super.onAttach(activity);
-			((PotlachMainActivity) activity).onSectionAttached(
-					getArguments().getInt(ARG_SECTION_NUMBER));
-		}
 	}
-	
 }
