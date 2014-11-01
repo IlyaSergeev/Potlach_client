@@ -9,6 +9,6 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         android:icon="@drawable/ic_action_photo"
-        app:showAsAction="never"/>
+        app:showAsAction="ifRoom"/>
 
 </menu>
