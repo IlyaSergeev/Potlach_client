@@ -3,12 +3,8 @@ package com.ilya.sergeev.potlach;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.MediaStore;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -51,8 +47,7 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 				break;
 			
 			default:
-				FragmentManager fragmentManager = getSupportFragmentManager();
-				fragmentManager.beginTransaction()
+				getSupportFragmentManager().beginTransaction()
 						.replace(R.id.container, FragmentFactory.getInstance(actionType))
 						.commit();
 				break;
@@ -113,6 +108,10 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 			
 			case SETTINGS:
 				mTitle = getString(R.string.settings);
+				break;
+			
+			case POTLACH_CREATE:
+				mTitle = getString(R.string.create_ptlach_action);
 				break;
 			
 			default:
@@ -200,33 +199,29 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 	{
 		if (resultCode == RESULT_OK)
 		{
+			CreatePotlachFragment createPotlachFragment = (CreatePotlachFragment) FragmentFactory.getInstance(SectionActionType.POTLACH_CREATE);
+			
 			if (requestCode == DialogHelper.SELECT_PHOTO_FROM_GALERY_REQUEST)
-			{	
-//				 Uri selectedImage = data.getData();
-//		            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-//
-//		            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-//		            cursor.moveToFirst();
-//
-//		            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//		            String filePath = cursor.getString(columnIndex);
-//		            cursor.close();
-				
-				Intent intent = new Intent(this, CreatePotlachActivity.class);
-				intent.putExtra(CreatePotlachActivity.PHOTO_PATH_ARG, data.getData());
-				startActivity(intent);
-				
+			{			
+				createPotlachFragment.setImageUri(data.getData());
 			}
-			if (requestCode == DialogHelper.CREATE_NEW_PHOTO_REQUEST)
+			else if (requestCode == DialogHelper.CREATE_NEW_PHOTO_REQUEST)
 			{
-				Intent intent = new Intent(this, CreatePotlachActivity.class);
-				intent.putExtra(CreatePotlachActivity.PHOTO_BITMAP_ARG, (Parcelable) data.getExtras().get("data"));
-				startActivity(intent);
+				createPotlachFragment.setImage((Bitmap) data.getExtras().get("data"));
 			}
+			showCreatePotlachFragment(createPotlachFragment);
 		}
 		else
 		{
 			super.onActivityResult(requestCode, resultCode, data);
 		}
+	}
+	
+	private void showCreatePotlachFragment(CreatePotlachFragment fragment)
+	{
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.container, fragment)
+				.addToBackStack(null)
+				.commitAllowingStateLoss();
 	}
 }

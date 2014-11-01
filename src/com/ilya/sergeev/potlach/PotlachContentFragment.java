@@ -19,4 +19,9 @@ abstract class PotlachContentFragment extends Fragment
 			((PotlachMainActivity) activity).onSectionAttached(SectionActionType.valueOf(args.getString(ARG_SECTION_NUMBER)));
 		}
 	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState)
+	{
+	}
 }
