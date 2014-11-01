@@ -291,12 +291,6 @@ public class NavigationDrawerFragment extends Fragment
 			return true;
 		}
 		
-		if (item.getItemId() == R.id.action_add_potlach)
-		{
-			mCallbacks.onNavigationDrawerItemSelected(SectionActionType.POTLACH_CREATE);
-			return true;
-		}
-		
 		return super.onOptionsItemSelected(item);
 	}
 	

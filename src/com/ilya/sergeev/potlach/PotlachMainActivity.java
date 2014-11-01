@@ -1,5 +1,7 @@
 package com.ilya.sergeev.potlach;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -7,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class PotlachMainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks
 {
@@ -36,11 +39,11 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 		switch (actionType)
 		{
 			case SIGN_OUT:
-				// TODO make sign out dialog
+				showSigOutDialog();
 				break;
 			
 			case POTLACH_CREATE:
-				// TODO make create potlach dialog
+				showCreatePotlachDialog();
 				break;
 			
 			default:
@@ -50,6 +53,38 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 						.commit();
 				break;
 		}
+	}
+	
+	private void showSigOutDialog()
+	{
+		new AlertDialog.Builder(this)
+				.setTitle("Do you want to sign out?")
+				.setPositiveButton("YES", new DialogInterface.OnClickListener()
+				{
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						// TODO Auto-generated method stub
+						
+					}
+				})
+				.setNegativeButton("NO", new DialogInterface.OnClickListener()
+				{
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						// TODO Auto-generated method stub
+						
+					}
+				})
+				.create().show();
+	}
+	
+	private void showCreatePotlachDialog()
+	{
+		Toast.makeText(this, "Create potlach from:1), 2), 3)", Toast.LENGTH_LONG).show();
 	}
 	
 	public void onSectionAttached(SectionActionType actionType)
@@ -103,13 +138,10 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_add_potlach)
 		{
-			// TODO create potlach
+			showCreatePotlachDialog();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
