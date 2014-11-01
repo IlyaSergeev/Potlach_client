@@ -1,9 +1,12 @@
 package com.ilya.sergeev.potlach;
 
+import java.io.File;
+import java.io.IOException;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -16,6 +19,8 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 	private NavigationDrawerFragment mNavigationDrawerFragment;
 	
 	private CharSequence mTitle;
+	
+	private Uri mTempPhotoFile = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -83,7 +88,32 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 	
 	private void showCreatePotlachDialog()
 	{
-		DialogHelper.showPhotoResourceDialog(this);
+		deleteTempImage();
+		File photoFile = null;
+		try
+		{
+			photoFile = DialogHelper.createImageFile();
+		}
+		catch (IOException ex)
+		{
+			ex.printStackTrace();
+			return;
+		}
+		if (photoFile != null)
+		{
+			mTempPhotoFile = Uri.fromFile(photoFile);
+			DialogHelper.showPhotoResourceDialog(this, mTempPhotoFile);
+		}
+	}
+	
+	private void deleteTempImage()
+	{
+		if (mTempPhotoFile != null)
+		{
+			getContentResolver().delete(mTempPhotoFile, null, null);
+			mTempPhotoFile = null;
+		}
+			
 	}
 	
 	public void onSectionAttached(SectionActionType actionType)
@@ -150,6 +180,13 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 		return super.onOptionsItemSelected(item);
 	}
 	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		deleteTempImage();
+	}
+	
 	private static class FragmentFactory
 	{
 		public static PotlachContentFragment getInstance(SectionActionType actionType)
@@ -178,10 +215,6 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 					resultFragment = new SettingsFragment();
 					break;
 				
-				case POTLACH_CREATE:
-					resultFragment = new CreatePotlachFragment();
-					break;
-				
 				default:
 					throw new IllegalArgumentException("user click unknown menu section");
 			}
@@ -199,29 +232,22 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 	{
 		if (resultCode == RESULT_OK)
 		{
-			CreatePotlachFragment createPotlachFragment = (CreatePotlachFragment) FragmentFactory.getInstance(SectionActionType.POTLACH_CREATE);
-			
 			if (requestCode == DialogHelper.SELECT_PHOTO_FROM_GALERY_REQUEST)
-			{			
-				createPotlachFragment.setImageUri(data.getData());
+			{
+				startActivity(CreatePotlachActivity.createPotlachIntent(data.getData(), this));
 			}
 			else if (requestCode == DialogHelper.CREATE_NEW_PHOTO_REQUEST)
 			{
-				createPotlachFragment.setImage((Bitmap) data.getExtras().get("data"));
+				startActivity(CreatePotlachActivity.createPotlachIntent(mTempPhotoFile, this));
 			}
-			showCreatePotlachFragment(createPotlachFragment);
 		}
 		else
 		{
+			if (requestCode == DialogHelper.CREATE_NEW_PHOTO_REQUEST && mTempPhotoFile != null)
+			{
+				deleteTempImage();
+			}
 			super.onActivityResult(requestCode, resultCode, data);
 		}
-	}
-	
-	private void showCreatePotlachFragment(CreatePotlachFragment fragment)
-	{
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.container, fragment)
-				.addToBackStack(null)
-				.commitAllowingStateLoss();
 	}
 }

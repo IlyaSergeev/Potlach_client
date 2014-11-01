@@ -1,9 +1,16 @@
 package com.ilya.sergeev.potlach;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 
 final class DialogHelper
@@ -15,7 +22,7 @@ final class DialogHelper
 	{
 	}
 	
-	public static void showPhotoResourceDialog(final Activity activity)
+	public static void showPhotoResourceDialog(final Activity activity, final Uri tempFileUri)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 		builder.setTitle("Photo resource")
@@ -41,6 +48,10 @@ final class DialogHelper
 									case 1:
 										intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 										requestCode = CREATE_NEW_PHOTO_REQUEST;
+										if (tempFileUri != null)
+										{
+											intent.putExtra(MediaStore.EXTRA_OUTPUT, tempFileUri);
+										}
 										break;
 								}
 								if (intent.resolveActivity(activity.getPackageManager()) != null)
@@ -50,5 +61,19 @@ final class DialogHelper
 							}
 						});
 		builder.create().show();
+	}
+	
+	public static File createImageFile() throws IOException
+	{
+		String timeStamp = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.DEFAULT, SimpleDateFormat.FULL).format(new Date());
+		String imageFileName = "JPEG_" + timeStamp + "_";
+		File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+		File image = File.createTempFile(
+				imageFileName,
+				".jpg",
+				storageDir
+				);
+		
+		return image;
 	}
 }
