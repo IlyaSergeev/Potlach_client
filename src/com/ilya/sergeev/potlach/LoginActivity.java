@@ -104,6 +104,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 		{
 			startMainActivity();
 		}
+		else
+		{
+			mEmailView.setText(UserHelper.getLogin(this));
+		}
 	}
 	
 	private void startMainActivity()

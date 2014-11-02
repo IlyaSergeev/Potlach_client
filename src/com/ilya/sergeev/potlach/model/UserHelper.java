@@ -39,7 +39,6 @@ public final class UserHelper
 		boolean result = getPrefs(context)
 				.edit()
 				.remove(TOKET_TAG)
-				.remove(USER_LOGIN_TAG)
 				.commit();
 		
 		if (result)
