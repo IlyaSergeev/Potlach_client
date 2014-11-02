@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.ilya.sergeev.potlach.model.UserHelper;
 
 public class NavigationDrawerFragment extends Fragment
 {
@@ -94,12 +97,17 @@ public class NavigationDrawerFragment extends Fragment
 				selectItem(position);
 			}
 		});
+		String userName = UserHelper.getName(inflater.getContext());
+		if (TextUtils.isEmpty(userName))
+		{
+			userName = "NO USER NAME";
+		}
 		mDrawerListView.setAdapter(new ArrayAdapter<String>(
 				getActionBar().getThemedContext(),
-				android.R.layout.simple_list_item_1,
-				android.R.id.text1,
+				R.layout.layout_menu_item,
+				R.id.text1,
 				new String[] {
-						getString(R.string.user_name), // TODO insert real user name
+						userName,
 						getString(R.string.new_potlatchs),
 						getString(R.string.voted_potlaches),
 						getString(R.string.search_potlaches),
