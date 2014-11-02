@@ -1,6 +1,7 @@
 package com.ilya.sergeev.potlach.model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -41,11 +42,17 @@ public final class UserHelper
 	
 	public static boolean signOut(Context context)
 	{
-		return getPrefs(context)
+		boolean result = getPrefs(context)
 				.edit()
 				.remove(TOKET_TAG)
 				.remove(USER_NAME_TAG)
 				.commit();
+		
+		if (result)
+		{
+			context.sendBroadcast(new Intent(Broadcasts.SIGN_OUT_BROADCAST));
+		}
+		return result;
 	}
 	
 	private static SharedPreferences getPrefs(Context context)

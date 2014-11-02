@@ -3,11 +3,15 @@ package com.ilya.sergeev.potlach;
 import java.io.File;
 import java.io.IOException;
 
+import com.ilya.sergeev.potlach.model.Broadcasts;
 import com.ilya.sergeev.potlach.model.UserHelper;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -24,6 +28,16 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 	
 	private Uri mTempPhotoFile = null;
 	
+	private BroadcastReceiver mSignOutReceiver = new BroadcastReceiver()
+	{
+
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			// TODO goto sign in screen
+		}
+	};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -34,10 +48,25 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 				getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 		mTitle = getTitle();
 		
-		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(
 				R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
+	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		
+		registerReceiver(mSignOutReceiver, new IntentFilter(Broadcasts.SIGN_OUT_BROADCAST));
+	}
+	
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		
+		unregisterReceiver(mSignOutReceiver);
 	}
 	
 	@Override
