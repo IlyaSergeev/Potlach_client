@@ -16,12 +16,15 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class CreatePotlachActivity extends ActionBarActivity
 {
@@ -34,8 +37,11 @@ public class CreatePotlachActivity extends ActionBarActivity
 	
 	private ImageView mImageView;
 	private ProgressBar mProgressBar;
-	private Button mSendButton;
 	private EditText mTitleTextView;
+	private View mLoadingView;
+	private TextView mSendingTextView;
+	
+	private SendingTask mSeningTask = null;
 	
 	public static Intent createPotlachIntent(Uri imageUri, Context context)
 	{
@@ -53,6 +59,8 @@ public class CreatePotlachActivity extends ActionBarActivity
 		
 		mImageView = (ImageView) findViewById(R.id.image_view);
 		mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+		mLoadingView = findViewById(R.id.loading_view);
+		mSendingTextView = (TextView) findViewById(R.id.sending_text_view);
 		
 		showImageLoadingProgress(false);
 		
@@ -70,8 +78,6 @@ public class CreatePotlachActivity extends ActionBarActivity
 			}
 		}
 		
-		mSendButton = (Button) findViewById(R.id.send_button);
-		
 		mTitleTextView = (EditText) findViewById(R.id.title_edit_text);
 		mTitleTextView.addTextChangedListener(new TextWatcher()
 		{
@@ -83,33 +89,29 @@ public class CreatePotlachActivity extends ActionBarActivity
 			
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{	
+			{
 			}
 			
 			@Override
 			public void afterTextChanged(Editable s)
 			{
-				mSendButton.setEnabled(s.length() > 0);
+				mTitleTextView.setError(null);
 			}
 		});
 		
-		mTitleTextView.setOnFocusChangeListener(new View.OnFocusChangeListener()
+		EditText messageitleTextView = (EditText) findViewById(R.id.message_text_view);
+		messageitleTextView.setOnEditorActionListener(new EditText.OnEditorActionListener()
 		{
 			
 			@Override
-			public void onFocusChange(View v, boolean hasFocus)
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 			{
-				if (!hasFocus)
+				if (actionId == EditorInfo.IME_ACTION_SEND)
 				{
-					if (mTitleTextView.getText().length() == 0)
-					{
-						mTitleTextView.setError("Enter some words as a title");
-					}
-					else
-					{
-						mTitleTextView.setError(null);
-					}
+					sendAction(v);
+					return true;
 				}
+				return false;
 			}
 		});
 	}
@@ -127,7 +129,9 @@ public class CreatePotlachActivity extends ActionBarActivity
 	protected void onResume()
 	{
 		super.onResume();
+		
 		mImageView.setImageBitmap(mImageBitmap);
+		mLoadingView.setVisibility((mSeningTask != null)?View.VISIBLE:View.GONE);
 	}
 	
 	@Override
@@ -176,15 +180,15 @@ public class CreatePotlachActivity extends ActionBarActivity
 	
 	private void showImageLoadingProgress(boolean isVisible)
 	{
-		mProgressBar.setVisibility(isVisible?View.VISIBLE:View.GONE);
-		mImageView.setVisibility(isVisible?View.GONE:View.VISIBLE);
+		mProgressBar.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+		mImageView.setVisibility(isVisible ? View.GONE : View.VISIBLE);
 	}
 	
 	private void startLoadImage(Uri uri)
 	{
 		new AsyncTask<Uri, Void, Bitmap>()
 		{
-			protected void onPreExecute() 
+			protected void onPreExecute()
 			{
 				setImage(null);
 				showImageLoadingProgress(true);
@@ -251,6 +255,90 @@ public class CreatePotlachActivity extends ActionBarActivity
 				file.delete();
 			}
 			mTempImageFile = null;
+		}
+	}
+	
+	public void sendAction(View sender) 
+	{
+		if (mTitleTextView.getText().length() == 0)
+		{
+			mTitleTextView.setError(getString(R.string.enter_some_words_as_a_title));
+			mTitleTextView.requestFocus();
+		}
+		else
+		{
+			startSending();
+		}
+	}
+	
+	private void startSending()
+	{
+		cancelSending();
+		mSeningTask = new SendingTask();
+		mSeningTask.execute();
+	}
+	
+	private void cancelSending()
+	{
+		if (mSeningTask != null)
+		{
+			mSeningTask.cancel(false);
+			mSeningTask = null;
+		}
+	}
+	
+	public void cancelLoading(View sender)
+	{
+		mSendingTextView.setText(R.string.cancelling_);
+		cancelSending();
+	}
+	
+	private class SendingTask extends AsyncTask<Void, Void, Boolean>
+	{
+		@Override
+		protected void onPreExecute()
+		{
+			super.onPreExecute();
+			mSendingTextView.setText(R.string.sending_);
+			mLoadingView.setVisibility(View.VISIBLE);
+		}
+		
+		@Override
+		protected Boolean doInBackground(Void... params)
+		{
+			// TODO send potlacth to server
+			
+			try
+			{
+				//TODO this is mock
+				Thread.sleep(5000);
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+				return false;
+			}
+			return true;
+		}
+		
+		protected void onPostExecute(Boolean result) 
+		{
+			if (result)
+			{
+				//TODO send broadcast to refresh screen
+				onBackPressed();
+			}
+			mSeningTask = null;
+			mLoadingView.setVisibility(View.GONE);
+		};
+		
+		@Override
+		protected void onCancelled()
+		{
+			super.onCancelled();
+			mSeningTask = null;
+			Toast.makeText(CreatePotlachActivity.this, R.string.sending_was_cancelled, Toast.LENGTH_SHORT).show();
+			mLoadingView.setVisibility(View.GONE);
 		}
 	}
 }

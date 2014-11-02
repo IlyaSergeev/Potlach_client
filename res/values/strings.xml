@@ -16,5 +16,9 @@
     <string name="title_activity_create_potlach">CreatePotlachActivity</string>
     <string name="action_settings">Settings</string>
     <string name="potlach_image">Potlach image</string>
+    <string name="sending_">Sending...</string>
+    <string name="cancelling_">Cancelling...</string>
+    <string name="sending_was_cancelled">Sending was cancelled</string>
+    <string name="enter_some_words_as_a_title">Enter some words as a title</string>
 
 </resources>
