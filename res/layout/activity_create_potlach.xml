@@ -1,39 +1,69 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ilya.sergeev.potlach.CreatePotlachActivity" >
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-        <ImageView
-            android:id="@+id/image_view"
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/potlach_image"
-            android:minHeight="200dp"
-            android:scaleType="centerInside" />
+            android:hint="Title (required)"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:singleLine="true"
+            tools:ignore="HardcodedText" >
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
+            <requestFocus />
+        </EditText>
+
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-    </FrameLayout>
+            android:layout_marginTop="8dp" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="CREATION OF POTLACH NOT IMPLEMENTED"
-        tools:ignore="HardcodedText" />
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/potlach_image"
+                android:minHeight="200dp"
+                android:scaleType="centerInside"
+                android:onClick="changeImageAction"
+                android:src="@drawable/mock_image" />
 
-</LinearLayout>
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Message"
+            android:inputType="textLongMessage"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Send Potlach"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+</ScrollView>

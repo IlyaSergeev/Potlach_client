@@ -1,6 +1,8 @@
 package com.ilya.sergeev.potlach;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import android.content.Context;
@@ -23,6 +25,8 @@ public class CreatePotlachActivity extends ActionBarActivity
 	public static final String PHOTO_BITMAP_ARG = "photo_bitmap_arg";
 	
 	private Bitmap mImageBitmap = null;
+	
+	private Uri mTempImageFile = null;
 	
 	private ImageView mImageView;
 	private ProgressBar mProgressBar;
@@ -89,6 +93,38 @@ public class CreatePotlachActivity extends ActionBarActivity
 		return super.onOptionsItemSelected(item);
 	}
 	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if (resultCode == RESULT_OK)
+		{
+			if (requestCode == DialogHelper.SELECT_PHOTO_FROM_GALERY_REQUEST)
+			{
+				startLoadImage(data.getData());
+			}
+			else if (requestCode == DialogHelper.CREATE_NEW_PHOTO_REQUEST)
+			{
+				startLoadImage(mTempImageFile);
+			}
+		}
+		else
+		{
+			if (requestCode == DialogHelper.CREATE_NEW_PHOTO_REQUEST && mTempImageFile != null)
+			{
+				deleteTempFile();
+			}
+			super.onActivityResult(requestCode, resultCode, data);
+		}
+	}
+	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		
+		deleteTempFile();
+	}
+	
 	private void showImageLoadingProgress(boolean isVisible)
 	{
 		mProgressBar.setVisibility(isVisible?View.VISIBLE:View.GONE);
@@ -129,5 +165,43 @@ public class CreatePotlachActivity extends ActionBarActivity
 				showImageLoadingProgress(false);
 			}
 		}.execute(uri);
+	}
+	
+	public void changeImageAction(View sender)
+	{
+		showCreatePotlachDialog();
+	}
+	
+	private void showCreatePotlachDialog()
+	{
+		deleteTempFile();
+		File photoFile = null;
+		try
+		{
+			photoFile = DialogHelper.createImageFile();
+		}
+		catch (IOException ex)
+		{
+			ex.printStackTrace();
+			return;
+		}
+		if (photoFile != null)
+		{
+			mTempImageFile = Uri.fromFile(photoFile);
+			DialogHelper.showPhotoResourceDialog(this, mTempImageFile);
+		}
+	}
+	
+	private void deleteTempFile()
+	{
+		if (mTempImageFile != null)
+		{
+			File file = new File(mTempImageFile.getPath());
+			if (file.exists())
+			{
+				file.delete();
+			}
+			mTempImageFile = null;
+		}
 	}
 }

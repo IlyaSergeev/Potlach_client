@@ -138,7 +138,6 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 			}
 			mTempPhotoFile = null;
 		}
-			
 	}
 	
 	public void onSectionAttached(SectionActionType actionType)
