@@ -14,8 +14,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -30,6 +34,8 @@ public class CreatePotlachActivity extends ActionBarActivity
 	
 	private ImageView mImageView;
 	private ProgressBar mProgressBar;
+	private Button mSendButton;
+	private EditText mTitleTextView;
 	
 	public static Intent createPotlachIntent(Uri imageUri, Context context)
 	{
@@ -63,6 +69,49 @@ public class CreatePotlachActivity extends ActionBarActivity
 				startLoadImage((Uri) extras.get(PHOTO_PATH_ARG));
 			}
 		}
+		
+		mSendButton = (Button) findViewById(R.id.send_button);
+		
+		mTitleTextView = (EditText) findViewById(R.id.title_edit_text);
+		mTitleTextView.addTextChangedListener(new TextWatcher()
+		{
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count)
+			{
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after)
+			{	
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s)
+			{
+				mSendButton.setEnabled(s.length() > 0);
+			}
+		});
+		
+		mTitleTextView.setOnFocusChangeListener(new View.OnFocusChangeListener()
+		{
+			
+			@Override
+			public void onFocusChange(View v, boolean hasFocus)
+			{
+				if (!hasFocus)
+				{
+					if (mTitleTextView.getText().length() == 0)
+					{
+						mTitleTextView.setError("Enter some words as a title");
+					}
+					else
+					{
+						mTitleTextView.setError(null);
+					}
+				}
+			}
+		});
 	}
 	
 	private void setImage(Bitmap bitmap)

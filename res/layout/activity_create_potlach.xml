@@ -14,6 +14,7 @@
         android:orientation="vertical" >
 
         <EditText
+            android:id="@+id/title_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Title (required)"
@@ -37,8 +38,8 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/potlach_image"
                 android:minHeight="200dp"
-                android:scaleType="centerInside"
                 android:onClick="changeImageAction"
+                android:scaleType="centerInside"
                 android:src="@drawable/mock_image" />
 
             <ProgressBar
@@ -58,9 +59,11 @@
             tools:ignore="HardcodedText" />
 
         <Button
+            android:id="@+id/send_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:enabled="false"
             android:text="Send Potlach"
             android:textAppearance="@android:style/TextAppearance.Large"
             tools:ignore="HardcodedText" />
