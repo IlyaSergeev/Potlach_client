@@ -97,7 +97,7 @@ public class NavigationDrawerFragment extends Fragment
 				selectItem(position);
 			}
 		});
-		String userName = UserHelper.getName(inflater.getContext());
+		String userName = UserHelper.getLogin(inflater.getContext());
 		if (TextUtils.isEmpty(userName))
 		{
 			userName = "NO USER NAME";

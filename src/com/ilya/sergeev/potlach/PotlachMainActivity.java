@@ -34,7 +34,8 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			// TODO goto sign in screen
+			startActivity(new Intent(PotlachMainActivity.this, LoginActivity.class));
+			finish();
 		}
 	};
 	
