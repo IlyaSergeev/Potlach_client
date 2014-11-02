@@ -3,6 +3,8 @@ package com.ilya.sergeev.potlach;
 import java.io.File;
 import java.io.IOException;
 
+import com.ilya.sergeev.potlach.model.UserHelper;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,25 +64,14 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 	private void showSigOutDialog()
 	{
 		new AlertDialog.Builder(this)
-				.setTitle("Do you want to sign out?")
-				.setPositiveButton("YES", new DialogInterface.OnClickListener()
+				.setTitle("Are you  realy want to sign out?")
+				.setPositiveButton("Sign Out", new DialogInterface.OnClickListener()
 				{
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which)
 					{
-						// TODO Auto-generated method stub
-						
-					}
-				})
-				.setNegativeButton("NO", new DialogInterface.OnClickListener()
-				{
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which)
-					{
-						// TODO Auto-generated method stub
-						
+						UserHelper.signOut(PotlachMainActivity.this);
 					}
 				})
 				.create().show();

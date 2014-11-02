@@ -39,6 +39,15 @@ public final class UserHelper
 				.commit();
 	}
 	
+	public static boolean signOut(Context context)
+	{
+		return getPrefs(context)
+				.edit()
+				.remove(TOKET_TAG)
+				.remove(USER_NAME_TAG)
+				.commit();
+	}
+	
 	private static SharedPreferences getPrefs(Context context)
 	{
 		return PreferenceManager.getDefaultSharedPreferences(context);
