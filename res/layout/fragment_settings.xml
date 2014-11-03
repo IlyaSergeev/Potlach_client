@@ -10,7 +10,32 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SETTINGS NOT IMPLEMENTED"
-        tools:ignore="HardcodedText" />
+        android:text="@string/update_every_"
+        android:textAppearance="@android:style/TextAppearance.Large" />
+
+    <RadioGroup
+        android:id="@+id/update_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:id="@+id/radio_minut_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/_1_minute" />
+
+        <RadioButton
+            android:id="@+id/radio_minut_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_5_minuts" />
+
+        <RadioButton
+            android:id="@+id/radio_minut_60"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_60_minuts" />
+    </RadioGroup>
 
 </LinearLayout>

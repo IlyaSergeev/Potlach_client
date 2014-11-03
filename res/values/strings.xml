@@ -20,5 +20,9 @@
     <string name="cancelling_">Cancelling...</string>
     <string name="sending_was_cancelled">Sending was cancelled</string>
     <string name="enter_some_words_as_a_title">Enter some words as a title</string>
+    <string name="update_every_">Update every:</string>
+    <string name="_1_minute">1 minute</string>
+    <string name="_5_minuts">5 minuts</string>
+    <string name="_60_minuts">60 minuts</string>
 
 </resources>
