@@ -6,7 +6,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="settings">Settings</string>
     <string name="create_gift_action">Create gift</string>
-    <string name="user_name">User name</string>
+    <string name="my_gifts">My Gifts</string>
     <string name="new_gifts">News</string>
     <string name="search_gifts">Search</string>
     <string name="sign_out">Sign Out</string>

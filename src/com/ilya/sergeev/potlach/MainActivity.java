@@ -141,7 +141,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 		switch (actionType)
 		{
 			case POTLACH_MY:
-				mTitle = getString(R.string.user_name);
+				mTitle = getString(R.string.my_gifts);
 				break;
 			
 			case POTLACH_WALL:
