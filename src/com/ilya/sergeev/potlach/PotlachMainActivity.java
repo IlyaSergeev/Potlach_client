@@ -27,10 +27,11 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 	private CharSequence mTitle;
 	
 	private Uri mTempPhotoFile = null;
+	private SectionActionType mCurrentActionType;
 	
 	private BroadcastReceiver mSignOutReceiver = new BroadcastReceiver()
 	{
-
+		
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
@@ -73,22 +74,15 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 	@Override
 	public void onNavigationDrawerItemSelected(SectionActionType actionType)
 	{
-		switch (actionType)
-		{
-			case SIGN_OUT:
-				showSigOutDialog();
-				break;
-			
-			case POTLACH_CREATE:
-				showCreatePotlachDialog();
-				break;
-			
-			default:
-				getSupportFragmentManager().beginTransaction()
-						.replace(R.id.container, FragmentFactory.getInstance(actionType))
-						.commit();
-				break;
-		}
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.container, FragmentFactory.getInstance(actionType))
+				.commit();
+	}
+	
+	@Override
+	public void onSignOutSelect()
+	{
+		showSigOutDialog();
 	}
 	
 	private void showSigOutDialog()
@@ -152,8 +146,8 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 				mTitle = getString(R.string.new_potlatchs);
 				break;
 			
-			case POTLACH_VOTED:
-				mTitle = getString(R.string.voted_potlaches);
+			case POTLACH_TOP_RATE:
+				mTitle = getString(R.string.top_rate);
 				break;
 			
 			case POTLACH_SEARCH:
@@ -164,13 +158,11 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 				mTitle = getString(R.string.settings);
 				break;
 			
-			case POTLACH_CREATE:
-				mTitle = getString(R.string.create_ptlach_action);
-				break;
-			
 			default:
 				mTitle = null;
 		}
+		mCurrentActionType = actionType;
+		invalidateOptionsMenu();
 	}
 	
 	public void restoreActionBar()
@@ -185,11 +177,31 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 	{
 		if (!mNavigationDrawerFragment.isDrawerOpen())
 		{
-			getMenuInflater().inflate(R.menu.main, menu);
-			restoreActionBar();
-			return true;
+			int menuLayout = getMenuId();
+			if (menuLayout != 0)
+			{
+				getMenuInflater().inflate(R.menu.main, menu);
+				restoreActionBar();
+				return true;
+			}
 		}
 		return super.onCreateOptionsMenu(menu);
+	}
+	
+	private int getMenuId()
+	{
+		switch (mCurrentActionType)
+		{
+			case POTLACH_MY:
+			case POTLACH_WALL:
+				return R.menu.main;
+				
+			case POTLACH_SEARCH:
+			case POTLACH_TOP_RATE:
+			case SETTINGS:
+			default:
+				return 0;
+		}
 	}
 	
 	@Override
@@ -227,8 +239,8 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 					resultFragment = new PotlachWallFragment();
 					break;
 				
-				case POTLACH_VOTED:
-					resultFragment = new VotedPotlachFragment();
+				case POTLACH_TOP_RATE:
+					resultFragment = new TopRateFragment();
 					break;
 				
 				case POTLACH_SEARCH:

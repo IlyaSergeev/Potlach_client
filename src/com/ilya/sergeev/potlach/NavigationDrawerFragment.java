@@ -109,7 +109,7 @@ public class NavigationDrawerFragment extends Fragment
 				new String[] {
 						userName,
 						getString(R.string.new_potlatchs),
-						getString(R.string.voted_potlaches),
+						getString(R.string.top_rate),
 						getString(R.string.search_potlaches),
 						getString(R.string.settings),
 						getString(R.string.sign_out),
@@ -213,7 +213,14 @@ public class NavigationDrawerFragment extends Fragment
 		}
 		if (mCallbacks != null)
 		{
-			mCallbacks.onNavigationDrawerItemSelected(getSelectionActionType(position));
+			if (position == 5)
+			{
+				mCallbacks.onSignOutSelect();
+			}
+			else
+			{
+				mCallbacks.onNavigationDrawerItemSelected(getSelectionActionType(position));
+			}
 		}
 	}
 	
@@ -228,16 +235,13 @@ public class NavigationDrawerFragment extends Fragment
 				return SectionActionType.POTLACH_WALL;
 				
 			case 2:
-				return SectionActionType.POTLACH_VOTED;
+				return SectionActionType.POTLACH_TOP_RATE;
 				
 			case 3:
 				return SectionActionType.POTLACH_SEARCH;
 				
 			case 4:
 				return SectionActionType.SETTINGS;
-				
-			case 5:
-				return SectionActionType.SIGN_OUT;
 				
 			default:
 				throw new IllegalArgumentException("Unknown menu section");
@@ -326,5 +330,7 @@ public class NavigationDrawerFragment extends Fragment
 		 * Called when an item in the navigation drawer is selected.
 		 */
 		void onNavigationDrawerItemSelected(SectionActionType actionType);
+		
+		void onSignOutSelect();
 	}
 }
