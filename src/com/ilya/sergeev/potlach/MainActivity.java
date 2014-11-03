@@ -14,9 +14,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -177,31 +179,49 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 	{
 		if (!mNavigationDrawerFragment.isDrawerOpen())
 		{
-			int menuLayout = getMenuId();
-			if (menuLayout != 0)
+			
+			switch (mCurrentActionType)
 			{
-				getMenuInflater().inflate(R.menu.main, menu);
-				restoreActionBar();
-				return true;
+				case POTLACH_MY:
+				case POTLACH_WALL:
+					getMenuInflater().inflate(R.menu.menu_add_gift, menu);
+					restoreActionBar();
+					return true;
+					
+				case POTLACH_SEARCH:
+					getMenuInflater().inflate(R.menu.menu_search, menu);
+					MenuItem searchItem = menu.findItem(R.id.action_search);
+					SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+					searchView.setQueryHint("Поиск");
+					//TODO replace method
+					searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+					{
+						
+						@Override
+						public boolean onQueryTextSubmit(String arg0)
+						{
+							// TODO Auto-generated method stub
+							return false;
+						}
+						
+						@Override
+						public boolean onQueryTextChange(String arg0)
+						{
+							// TODO Auto-generated method stub
+							return false;
+						}
+					});
+					restoreActionBar();
+					return true;
+					
+				case POTLACH_TOP_RATE:
+				case SETTINGS:
+				default:
+					break;
 			}
+			restoreActionBar();
 		}
 		return super.onCreateOptionsMenu(menu);
-	}
-	
-	private int getMenuId()
-	{
-		switch (mCurrentActionType)
-		{
-			case POTLACH_MY:
-			case POTLACH_WALL:
-				return R.menu.main;
-				
-			case POTLACH_SEARCH:
-			case POTLACH_TOP_RATE:
-			case SETTINGS:
-			default:
-				return 0;
-		}
 	}
 	
 	@Override

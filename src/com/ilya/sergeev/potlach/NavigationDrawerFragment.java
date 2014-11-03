@@ -13,8 +13,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -285,17 +283,6 @@ public class NavigationDrawerFragment extends Fragment
 	}
 	
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-	{
-		if (mDrawerLayout != null && isDrawerOpen())
-		{
-			inflater.inflate(R.menu.global, menu);
-			showGlobalContextActionBar();
-		}
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-	
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		if (mDrawerToggle.onOptionsItemSelected(item))
@@ -304,16 +291,6 @@ public class NavigationDrawerFragment extends Fragment
 		}
 		
 		return super.onOptionsItemSelected(item);
-	}
-	
-	/**
-	 * Per the navigation drawer design guidelines, updates the action bar to show the global app 'context', rather than just what's in the current screen.
-	 */
-	private void showGlobalContextActionBar()
-	{
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setTitle(R.string.app_name);
 	}
 	
 	private ActionBar getActionBar()

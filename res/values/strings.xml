@@ -24,5 +24,7 @@
     <string name="_5_minuts">5 minuts</string>
     <string name="_60_minuts">60 minuts</string>
     <string name="top_rate">Top rate</string>
+    <string name="search_title">Search</string>
+    <string name="gift_title">Gift title</string>
 
 </resources>
