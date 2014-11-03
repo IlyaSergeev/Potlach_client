@@ -6,13 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class MyPotlachFragment extends PotlachContentFragment
+public class GiftWallFragment extends MainContentFragment
 {
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
 	{
 		super.onCreateView(inflater, container, savedInstanceState);
-		View view = inflater.inflate(R.layout.fragment_potlach_my, container, false);
+		View view = inflater.inflate(R.layout.fragment_gift_wall, container, false);
 		//TODO initialize view
 		return view;
 	}

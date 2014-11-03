@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
-public class SettingsFragment extends PotlachContentFragment
+public class SettingsFragment extends MainContentFragment
 {
 	private RadioGroup mUpdateGroup;
 	

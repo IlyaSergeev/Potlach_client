@@ -20,7 +20,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class PotlachMainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks
 {
 	private NavigationDrawerFragment mNavigationDrawerFragment;
 	
@@ -35,7 +35,7 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			startActivity(new Intent(PotlachMainActivity.this, LoginActivity.class));
+			startActivity(new Intent(MainActivity.this, LoginActivity.class));
 			finish();
 		}
 	};
@@ -95,7 +95,7 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 					@Override
 					public void onClick(DialogInterface dialog, int which)
 					{
-						UserHelper.signOut(PotlachMainActivity.this);
+						UserHelper.signOut(MainActivity.this);
 					}
 				})
 				.create().show();
@@ -143,7 +143,7 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 				break;
 			
 			case POTLACH_WALL:
-				mTitle = getString(R.string.new_potlatchs);
+				mTitle = getString(R.string.new_gifts);
 				break;
 			
 			case POTLACH_TOP_RATE:
@@ -151,7 +151,7 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 				break;
 			
 			case POTLACH_SEARCH:
-				mTitle = getString(R.string.search_potlaches);
+				mTitle = getString(R.string.search_gifts);
 				break;
 			
 			case SETTINGS:
@@ -225,18 +225,18 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 	
 	private static class FragmentFactory
 	{
-		public static PotlachContentFragment getInstance(SectionActionType actionType)
+		public static MainContentFragment getInstance(SectionActionType actionType)
 		{
-			PotlachContentFragment resultFragment = null;
+			MainContentFragment resultFragment = null;
 			Bundle args = new Bundle();
 			switch (actionType)
 			{
 				case POTLACH_MY:
-					resultFragment = new MyPotlachFragment();
+					resultFragment = new MyGiftsFragment();
 					break;
 				
 				case POTLACH_WALL:
-					resultFragment = new PotlachWallFragment();
+					resultFragment = new GiftWallFragment();
 					break;
 				
 				case POTLACH_TOP_RATE:
@@ -256,7 +256,7 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 			}
 			if (resultFragment != null)
 			{
-				args.putString(PotlachContentFragment.ARG_SECTION_NUMBER, actionType.name());
+				args.putString(MainContentFragment.ARG_SECTION_NUMBER, actionType.name());
 				resultFragment.setArguments(args);
 			}
 			return resultFragment;
@@ -270,11 +270,11 @@ public class PotlachMainActivity extends ActionBarActivity implements Navigation
 		{
 			if (requestCode == DialogHelper.SELECT_PHOTO_FROM_GALERY_REQUEST)
 			{
-				startActivity(CreatePotlachActivity.createPotlachIntent(data.getData(), this));
+				startActivity(CreateGiftActivity.createPotlachIntent(data.getData(), this));
 			}
 			else if (requestCode == DialogHelper.CREATE_NEW_PHOTO_REQUEST)
 			{
-				startActivity(CreatePotlachActivity.createPotlachIntent(mTempPhotoFile, this));
+				startActivity(CreateGiftActivity.createPotlachIntent(mTempPhotoFile, this));
 			}
 		}
 		else

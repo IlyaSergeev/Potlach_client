@@ -112,7 +112,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 	
 	private void startMainActivity()
 	{
-		startActivity(new Intent(this, PotlachMainActivity.class));
+		startActivity(new Intent(this, MainActivity.class));
 		finish();
 	}
 

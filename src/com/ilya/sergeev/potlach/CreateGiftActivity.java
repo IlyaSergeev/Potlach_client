@@ -26,7 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CreatePotlachActivity extends ActionBarActivity
+public class CreateGiftActivity extends ActionBarActivity
 {
 	public static final String PHOTO_PATH_ARG = "photo_path_arg";
 	public static final String PHOTO_BITMAP_ARG = "photo_bitmap_arg";
@@ -45,8 +45,8 @@ public class CreatePotlachActivity extends ActionBarActivity
 	
 	public static Intent createPotlachIntent(Uri imageUri, Context context)
 	{
-		Intent intent = new Intent(context, CreatePotlachActivity.class);
-		intent.putExtra(CreatePotlachActivity.PHOTO_PATH_ARG, imageUri);
+		Intent intent = new Intent(context, CreateGiftActivity.class);
+		intent.putExtra(CreateGiftActivity.PHOTO_PATH_ARG, imageUri);
 		return intent;
 	}
 	
@@ -54,7 +54,7 @@ public class CreatePotlachActivity extends ActionBarActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_create_potlach);
+		setContentView(R.layout.activity_create_gift);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		mImageView = (ImageView) findViewById(R.id.image_view);
@@ -337,7 +337,7 @@ public class CreatePotlachActivity extends ActionBarActivity
 		{
 			super.onCancelled();
 			mSeningTask = null;
-			Toast.makeText(CreatePotlachActivity.this, R.string.sending_was_cancelled, Toast.LENGTH_SHORT).show();
+			Toast.makeText(CreateGiftActivity.this, R.string.sending_was_cancelled, Toast.LENGTH_SHORT).show();
 			mLoadingView.setVisibility(View.GONE);
 		}
 	}
