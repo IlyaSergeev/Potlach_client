@@ -9,12 +9,12 @@ import com.ilya.sergeev.potlach.unsafe.EasyHttpClient;
 
 public class ServerSvcApi
 {
-	public static ServerSvcApi createServerApi(String server, String user, String passwrod)
+	public static ServerSvcApi createServerApi(String server, String user, String password)
 	{
 		RestAdapter adapter = new SecuredRestBuilder()
 				.setLoginEndpoint(server + UserInfoSvcApi.TOKEN_PATH)
 				.setUsername(user)
-				.setPassword(passwrod)
+				.setPassword(password)
 				.setClientId(ApplicationConsts.CLIENT_ID)
 				.setClient(new ApacheClient(new EasyHttpClient()))
 				.setEndpoint(server).setLogLevel(LogLevel.FULL).build();

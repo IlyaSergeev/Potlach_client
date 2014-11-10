@@ -1,8 +1,8 @@
-package com.ilya.sergeev.potlach;
+package com.ilya.sergeev.potlach.client;
 
 import retrofit.RetrofitError;
 
-import com.ilya.sergeev.potlach.client.ServerSvcApi;
+import com.ilya.sergeev.potlach.ApplicationConsts;
 
 public class ServerSvc
 {

@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.common.base.Objects;
+import com.ilya.sergeev.potlach.client.ServerSvc;
 import com.ilya.sergeev.potlach.client.SimpleMessage;
 import com.ilya.sergeev.potlach.client.UserInfoSvcApi;
 import com.ilya.sergeev.potlach.mock.ContentGenerateActivity;
@@ -388,7 +389,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 								@Override
 								public void run()
 								{
-									Toast.makeText(LoginActivity.this, R.string.registrate_user_ + mEmail, Toast.LENGTH_SHORT).show();
+									Toast.makeText(LoginActivity.this, getString(R.string.registrate_user_) + mEmail, Toast.LENGTH_SHORT).show();
 								}
 							});
 						}
