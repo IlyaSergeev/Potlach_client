@@ -1,20 +1,15 @@
 package com.ilya.sergeev.potlach;
 
-import retrofit.RestAdapter.LogLevel;
 import retrofit.RetrofitError;
-import retrofit.client.ApacheClient;
 
-import com.ilya.sergeev.potlach.client.SecuredRestBuilder;
-import com.ilya.sergeev.potlach.client.UserInfoSvcApi;
-import com.ilya.sergeev.potlach.unsafe.EasyHttpClient;
+import com.ilya.sergeev.potlach.client.ServerSvcApi;
 
 public class ServerSvc
 {
-	public static final String CLIENT_ID = "mobile";
-	public static final String SERVER_URL = "http://192.168.2.125:8080";
 	
 	private static String sUserName = null;
-	private static UserInfoSvcApi sServerApi;
+	
+	private static ServerSvcApi sServerApi;
 	
 	public static synchronized String getUserName()
 	{
@@ -26,7 +21,7 @@ public class ServerSvc
 		sUserName = userName;
 	}
 	
-	public static synchronized UserInfoSvcApi getServerApi()
+	public static synchronized ServerSvcApi getServerApi()
 	{
 		if (sServerApi == null)
 		{
@@ -36,35 +31,23 @@ public class ServerSvc
 		return sServerApi;
 	}
 	
-	public static synchronized UserInfoSvcApi signin(String userName, String password) throws RetrofitError
+	public static synchronized ServerSvcApi signin(String userName, String password) throws RetrofitError
 	{
-		sServerApi = createServerApiNotUser(SERVER_URL, userName, password);
+		sServerApi = ServerSvcApi.createServerApi(ApplicationConsts.SERVER_URL, userName, password);
 		setUserName(userName);
 		
 		return sServerApi;
 	}
 	
-	public static synchronized UserInfoSvcApi signout()
+	public static synchronized ServerSvcApi signout()
 	{
 		sServerApi = createNotUserApi();
 		setUserName(null);
 		return sServerApi;
 	}
 	
-	private static UserInfoSvcApi createNotUserApi()
+	private static ServerSvcApi createNotUserApi()
 	{
-		return createServerApiNotUser(SERVER_URL, "not_user", "not_user");
-	}
-	
-	private static UserInfoSvcApi createServerApiNotUser(String server, String userName, String password)
-	{
-		return new SecuredRestBuilder()
-				.setLoginEndpoint(server + UserInfoSvcApi.TOKEN_PATH)
-				.setUsername(userName)
-				.setPassword(password)
-				.setClientId(CLIENT_ID)
-				.setClient(new ApacheClient(new EasyHttpClient()))
-				.setEndpoint(server).setLogLevel(LogLevel.FULL).build()
-				.create(UserInfoSvcApi.class);
+		return ServerSvcApi.createServerApi(ApplicationConsts.SERVER_URL, "not_user", "not_user");
 	}
 }

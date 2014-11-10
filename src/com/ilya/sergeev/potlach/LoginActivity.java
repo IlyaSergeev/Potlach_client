@@ -157,7 +157,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 			focusView = mEmailView;
 			cancel = true;
 		}
-		else if (!isEmailValid(email))
+		else if (!isLoginValid(email))
 		{
 			mEmailView.setError(getString(R.string.error_invalid_email));
 			focusView = mEmailView;
@@ -180,14 +180,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 		}
 	}
 	
-	private boolean isEmailValid(String email)
+	private boolean isLoginValid(String email)
 	{
-		return email.contains("@");
+		return "admin".equals(email) || email.contains("@");
 	}
 	
 	private boolean isPasswordValid(String password)
 	{
-		return password.length() > 4;
+		return true; // password.length() > 4;
 	}
 	
 	/**
@@ -358,7 +358,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 			UserInfoSvcApi serverApi = null;
 			try
 			{
-				serverApi = ServerSvc.signin(mEmail, mPassword);
+				serverApi = ServerSvc.signin(mEmail, mPassword).getUsersApi();
 				SimpleMessage helloMsg = serverApi.getHello();
 				if (!Objects.equal(helloMsg.getUserName(), mEmail))
 				{
@@ -376,10 +376,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 				{
 					try
 					{
-						serverApi = ServerSvc.signout();
+						serverApi = ServerSvc.signout().getUsersApi();
 						serverApi.createUser(mEmail, mPassword);
 						
-						serverApi = ServerSvc.signin(mEmail, mPassword);
+						serverApi = ServerSvc.signin(mEmail, mPassword).getUsersApi();
 						SimpleMessage helloMsg = serverApi.getHello();
 						if (!Objects.equal(helloMsg.getUserName(), mEmail))
 						{
@@ -412,7 +412,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 			
 			if (serverApi != null)
 			{
-				startMainActivity();
+				if ("admin".equals(ServerSvc.getUserName()))
+				{
+					// TODO make content generator
+				}
+				else
+				{
+					startMainActivity();
+				}
 			}
 			else
 			{
