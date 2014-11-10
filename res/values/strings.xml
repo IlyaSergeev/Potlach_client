@@ -26,5 +26,7 @@
     <string name="top_rate">Top rate</string>
     <string name="search_title">Search</string>
     <string name="gift_title">Gift title</string>
+    <string name="server_url">Server url</string>
+    <string name="registrate_user_">Registrate user:</string>
 
 </resources>

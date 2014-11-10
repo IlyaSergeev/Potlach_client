@@ -3,9 +3,6 @@ package com.ilya.sergeev.potlach;
 import java.io.File;
 import java.io.IOException;
 
-import com.ilya.sergeev.potlach.model.Broadcasts;
-import com.ilya.sergeev.potlach.model.UserHelper;
-
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,6 +18,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.ilya.sergeev.potlach.model.Broadcasts;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks
 {
@@ -97,7 +96,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 					@Override
 					public void onClick(DialogInterface dialog, int which)
 					{
-						UserHelper.signOut(MainActivity.this);
+						ServerSvc.signout();
+						startActivity(new Intent(MainActivity.this, LoginActivity.class));
+						finish();
 					}
 				})
 				.create().show();

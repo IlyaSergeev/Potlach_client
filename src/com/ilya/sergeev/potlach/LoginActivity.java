@@ -1,5 +1,10 @@
 package com.ilya.sergeev.potlach;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit.RetrofitError;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -12,8 +17,8 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build.VERSION;
 import android.os.Build;
+import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
@@ -28,9 +33,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.base.Objects;
+import com.ilya.sergeev.potlach.client.SimpleMessage;
+import com.ilya.sergeev.potlach.client.UserInfoSvcApi;
 import com.ilya.sergeev.potlach.model.UserHelper;
 
 /**
@@ -38,13 +43,6 @@ import com.ilya.sergeev.potlach.model.UserHelper;
  */
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 {
-	
-	/**
-	 * A dummy authentication store containing known user names and passwords. TODO: remove after connecting to a real authentication system.
-	 */
-	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"foo@example.com:hello", "bar@example.com:world", "hensh@mail.ru:qwerty"
-	};
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
@@ -100,14 +98,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 	{
 		super.onResume();
 		
-		if (UserHelper.hasValidToken(this))
-		{
-			startMainActivity();
-		}
-		else
-		{
-			mEmailView.setText(UserHelper.getLogin(this));
-		}
+		mEmailView.setText(UserHelper.getLogin(this));
 	}
 	
 	private void startMainActivity()
@@ -115,7 +106,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 		startActivity(new Intent(this, MainActivity.class));
 		finish();
 	}
-
+	
 	private void populateAutoComplete()
 	{
 		if (VERSION.SDK_INT >= 14)
@@ -346,22 +337,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 		mEmailView.setAdapter(adapter);
 	}
 	
-	private class LoginInfo
-	{
-		final String userLogin;
-		final String token;
-		
-		LoginInfo(String userLogin, String token)
-		{
-			this.userLogin = userLogin;
-			this.token = token;
-		}
-	}
-	
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate the user.
 	 */
-	public class UserLoginTask extends AsyncTask<Void, Void, LoginInfo>
+	public class UserLoginTask extends AsyncTask<Void, Void, UserInfoSvcApi>
 	{
 		
 		private final String mEmail;
@@ -374,57 +353,66 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 		}
 		
 		@Override
-		protected LoginInfo doInBackground(Void... params)
+		protected UserInfoSvcApi doInBackground(Void... params)
 		{
-			// TODO: attempt authentication against a network service.
-			
+			UserInfoSvcApi serverApi = null;
 			try
 			{
-				// FIXME Simulate network access.
-				Thread.sleep(2000);
-			}
-			catch (InterruptedException e)
-			{
-				return null;
-			}
-			
-			for (String credential : DUMMY_CREDENTIALS)
-			{
-				String[] pieces = credential.split(":");
-				if (pieces[0].equals(mEmail))
+				serverApi = ServerSvc.signin(mEmail, mPassword);
+				SimpleMessage helloMsg = serverApi.getHello();
+				if (!Objects.equal(helloMsg.getUserName(), mEmail))
 				{
-					// Account exists, return true if the password matches.
-					if (pieces[1].equals(mPassword))
-					{
-						return new LoginInfo(mEmail, "TOKEN_TOKEN_TOKEN");
-					}
-					else
-					{
-						return null;
-					}
+					throw new IllegalAccessError();
 				}
 			}
-			
-			// TODO: register the new account here.
-			return null;
+			catch (IllegalAccessError e)
+			{
+				serverApi = null;
+			}
+			catch (RetrofitError e)
+			{
+				e.printStackTrace();
+				if (!e.isNetworkError())
+				{
+					try
+					{
+						serverApi = ServerSvc.signout();
+						serverApi.createUser(mEmail, mPassword);
+						
+						serverApi = ServerSvc.signin(mEmail, mPassword);
+						SimpleMessage helloMsg = serverApi.getHello();
+						if (!Objects.equal(helloMsg.getUserName(), mEmail))
+						{
+							throw new IllegalAccessError();
+						}
+						else
+						{
+							Toast.makeText(LoginActivity.this, R.string.registrate_user_ + mEmail, Toast.LENGTH_SHORT).show();
+						}
+					}
+					catch (RetrofitError ex)
+					{
+						ex.printStackTrace();
+						serverApi = null;
+					}
+				}
+				else
+				{
+					serverApi = null;
+				}
+			}
+			return serverApi;
 		}
 		
 		@Override
-		protected void onPostExecute(final LoginInfo loginInfo)
+		protected void onPostExecute(final UserInfoSvcApi serverApi)
 		{
 			mAuthTask = null;
 			showProgress(false);
 			
-			if (loginInfo != null)
+			if (serverApi != null)
 			{
-				if (UserHelper.signIn(loginInfo.userLogin, loginInfo.token, LoginActivity.this))
-				{
-					startMainActivity();
-				}
-				else
-				{
-					Toast.makeText(LoginActivity.this, "Can not save sign in info. Try again later", Toast.LENGTH_LONG).show();
-				}
+				startMainActivity();
 			}
 			else
 			{
