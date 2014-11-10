@@ -17,6 +17,11 @@ public final class UserHelper
 		return getPrefs(context).getString(USER_LOGIN_TAG, null);
 	}
 	
+	public static boolean setLogin(Context context, String userName)
+	{
+		return getPrefs(context).edit().putString(USER_LOGIN_TAG, userName).commit();
+	}
+	
 	private static SharedPreferences getPrefs(Context context)
 	{
 		return PreferenceManager.getDefaultSharedPreferences(context);

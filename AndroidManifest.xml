@@ -50,6 +50,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.ilya.sergeev.potlach.mock.ContentGenerateActivity"
+            android:label="@string/title_activity_content_generate" >
+        </activity>
     </application>
 
 </manifest>

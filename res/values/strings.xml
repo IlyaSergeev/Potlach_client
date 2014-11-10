@@ -28,5 +28,8 @@
     <string name="gift_title">Gift title</string>
     <string name="server_url">Server url</string>
     <string name="registrate_user_">Registrate user:</string>
+    <string name="title_activity_content_generate">ContentGenerateActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="generate_some_content">Generate some content</string>
 
 </resources>

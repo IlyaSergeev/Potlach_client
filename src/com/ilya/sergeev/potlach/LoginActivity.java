@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.google.common.base.Objects;
 import com.ilya.sergeev.potlach.client.SimpleMessage;
 import com.ilya.sergeev.potlach.client.UserInfoSvcApi;
+import com.ilya.sergeev.potlach.mock.ContentGenerateActivity;
 import com.ilya.sergeev.potlach.model.UserHelper;
 
 /**
@@ -99,12 +100,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 		super.onResume();
 		
 		mEmailView.setText(UserHelper.getLogin(this));
-	}
-	
-	private void startMainActivity()
-	{
-		startActivity(new Intent(this, MainActivity.class));
-		finish();
 	}
 	
 	private void populateAutoComplete()
@@ -387,7 +382,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 						}
 						else
 						{
-							Toast.makeText(LoginActivity.this, R.string.registrate_user_ + mEmail, Toast.LENGTH_SHORT).show();
+							runOnUiThread(new Runnable()
+							{
+								
+								@Override
+								public void run()
+								{
+									Toast.makeText(LoginActivity.this, R.string.registrate_user_ + mEmail, Toast.LENGTH_SHORT).show();
+								}
+							});
 						}
 					}
 					catch (RetrofitError ex)
@@ -412,14 +415,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 			
 			if (serverApi != null)
 			{
-				if ("admin".equals(ServerSvc.getUserName()))
+				String userName = ServerSvc.getUserName();
+				UserHelper.setLogin(LoginActivity.this, userName);
+				if ("admin".equals(userName))
 				{
-					// TODO make content generator
+					startActivity(new Intent(LoginActivity.this, ContentGenerateActivity.class));
 				}
 				else
 				{
-					startMainActivity();
+					startActivity(new Intent(LoginActivity.this, MainActivity.class));
 				}
+				finish();
 			}
 			else
 			{
