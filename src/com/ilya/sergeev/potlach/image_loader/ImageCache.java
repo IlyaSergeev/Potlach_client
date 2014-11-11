@@ -24,11 +24,9 @@ class ImageCache
 		}
 	}
 	
-	public File getFile(Object key)
+	public File getFile(String fileName)
 	{
-		String filename = String.valueOf(key.hashCode());
-		File f = new File(cacheDir, filename);
-		return f;
+		return new File(cacheDir, fileName);
 	}
 	
 	public void clear()

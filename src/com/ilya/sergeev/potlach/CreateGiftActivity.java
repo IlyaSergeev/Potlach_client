@@ -2,12 +2,22 @@ package com.ilya.sergeev.potlach;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+
+import retrofit.RetrofitError;
+import retrofit.mime.TypedFile;
+
+import com.ilya.sergeev.potlach.client.Gift;
+import com.ilya.sergeev.potlach.client.GiftSvcApi;
+import com.ilya.sergeev.potlach.client.ServerSvc;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -38,6 +48,7 @@ public class CreateGiftActivity extends ActionBarActivity
 	private ImageView mImageView;
 	private ProgressBar mProgressBar;
 	private EditText mTitleTextView;
+	private EditText mMessageTextView;
 	private View mLoadingView;
 	private TextView mSendingTextView;
 	
@@ -100,8 +111,8 @@ public class CreateGiftActivity extends ActionBarActivity
 			}
 		});
 		
-		EditText messageitleTextView = (EditText) findViewById(R.id.message_text_view);
-		messageitleTextView.setOnEditorActionListener(new EditText.OnEditorActionListener()
+		mMessageTextView = (EditText) findViewById(R.id.message_text_view);
+		mMessageTextView.setOnEditorActionListener(new EditText.OnEditorActionListener()
 		{
 			
 			@Override
@@ -132,7 +143,7 @@ public class CreateGiftActivity extends ActionBarActivity
 		super.onResume();
 		
 		mImageView.setImageBitmap(mImageBitmap);
-		mLoadingView.setVisibility((mSeningTask != null)?View.VISIBLE:View.GONE);
+		mLoadingView.setVisibility((mSeningTask != null) ? View.VISIBLE : View.GONE);
 	}
 	
 	@Override
@@ -259,7 +270,7 @@ public class CreateGiftActivity extends ActionBarActivity
 		}
 	}
 	
-	public void sendAction(View sender) 
+	public void sendAction(View sender)
 	{
 		if (mTitleTextView.getText().length() == 0)
 		{
@@ -268,14 +279,17 @@ public class CreateGiftActivity extends ActionBarActivity
 		}
 		else
 		{
-			startSending();
+			if (mImageBitmap != null)
+			{
+				startSending(mTitleTextView.getText().toString(), mMessageTextView.getText().toString(), mImageBitmap);
+			}
 		}
 	}
 	
-	private void startSending()
+	private void startSending(String title, String message, Bitmap imageBitmap)
 	{
 		cancelSending();
-		mSeningTask = new SendingTask();
+		mSeningTask = new SendingTask(title, message, imageBitmap);
 		mSeningTask.execute();
 	}
 	
@@ -296,6 +310,17 @@ public class CreateGiftActivity extends ActionBarActivity
 	
 	private class SendingTask extends AsyncTask<Void, Void, Boolean>
 	{
+		private final String mTitle;
+		private final String mMessage;
+		private final Bitmap mImageBitmap;
+		
+		public SendingTask(String title, String message, Bitmap imageBitmap)
+		{
+			mTitle = title;
+			mMessage = message;
+			mImageBitmap = imageBitmap;
+		}
+		
 		@Override
 		protected void onPreExecute()
 		{
@@ -307,26 +332,44 @@ public class CreateGiftActivity extends ActionBarActivity
 		@Override
 		protected Boolean doInBackground(Void... params)
 		{
-			// TODO send potlacth to server
-			
+			File imageFile = null;
 			try
 			{
-				//TODO this is mock
-				Thread.sleep(5000);
+				imageFile = DialogHelper.createImageFile();
+				OutputStream out = new FileOutputStream(imageFile);
+				mImageBitmap.compress(CompressFormat.JPEG, 100, out);
+				
+				GiftSvcApi giftsApi = ServerSvc.getServerApi().getGiftsApi();
+				Gift gift = new Gift(mTitle, mMessage);
+				gift = giftsApi.createGift(gift);
+				giftsApi.setImageData(gift.getId(), new TypedFile("image/jpg", imageFile));
+				
+				return true;
 			}
-			catch (InterruptedException e)
+			catch (IOException e)
 			{
 				e.printStackTrace();
 				return false;
 			}
-			return true;
+			catch (RetrofitError ex)
+			{
+				ex.printStackTrace();
+			}
+			finally
+			{
+				if (imageFile != null)
+				{
+					imageFile.delete();
+				}
+			}
+			return false;
 		}
 		
-		protected void onPostExecute(Boolean result) 
+		protected void onPostExecute(Boolean result)
 		{
 			if (result)
 			{
-				//TODO send broadcast to refresh screen
+				// TODO send broadcast to refresh screen
 				onBackPressed();
 			}
 			mSeningTask = null;
