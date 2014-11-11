@@ -35,16 +35,11 @@ public class GiftImageLoader
 		mGiftApi = giftApi;
 	}
 	
-	//TODO add image
-	int stub_id = 0;
-	
-	public void DisplayImage(Gift gift, int loader, ImageView imageView)
+	public void DisplayImage(Gift gift, int loaderImage, ImageView imageView)
 	{
-		stub_id = loader;
 		imageViews.put(imageView, urlFromGift(gift));
 		Bitmap bitmap = memoryCache.get(urlFromGift(gift));
-		imageView.setImageBitmap(null);
-		imageView.setImageResource(loader);
+		imageView.setImageResource(loaderImage);
 		if (bitmap != null)
 		{
 			imageView.setImageBitmap(bitmap);
@@ -94,7 +89,7 @@ public class GiftImageLoader
 	private Bitmap decodeFile(File f)
 	{
 		try
-		{			
+		{
 			return BitmapFactory.decodeStream(new FileInputStream(f));
 		}
 		catch (FileNotFoundException e)
@@ -169,11 +164,13 @@ public class GiftImageLoader
 		public void run()
 		{
 			if (imageViewReused(photoToLoad))
+			{
 				return;
+			}
 			if (bitmap != null)
+			{
 				photoToLoad.mImageView.setImageBitmap(bitmap);
-			else
-				photoToLoad.mImageView.setImageResource(stub_id);
+			}
 		}
 	}
 	

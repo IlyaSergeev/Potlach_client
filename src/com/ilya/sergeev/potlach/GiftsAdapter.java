@@ -55,15 +55,10 @@ public class GiftsAdapter extends BaseAdapter
 			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_gift, parent, false);
 		}
 		
-		final Gift gift = mGifts.get(position);
+		Gift gift = mGifts.get(position);
 		
-		// TODO extract loading to background
-		View loadingText = convertView.findViewById(R.id.loading_view);
-		loadingText.setVisibility(View.GONE);
-		ImageView imageView = (ImageView) convertView.findViewById(R.id.image_view);
-		imageView.setBackgroundResource(0);
-		
-		mImageLoader.DisplayImage(gift, 0, imageView);
+		ImageView imageView = (ImageView) convertView.findViewById(R.id.image_view);		
+		mImageLoader.DisplayImage(gift, R.drawable.image_mock, imageView);
 		
 		TextView titleTextView = (TextView) convertView.findViewById(R.id.title_text_view);
 		titleTextView.setText(gift.getTitle());

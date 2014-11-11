@@ -7,29 +7,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin" >
 
-    <FrameLayout
+    <ImageView
+        android:id="@+id/image_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" >
-
-        <ImageView
-            android:id="@+id/image_view"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/Gift_image"
-            android:onClick="changeImageAction"
-            android:scaleType="centerInside"
-            android:src="@drawable/image_mock" />
-
-        <TextView
-            android:id="@+id/loading_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/loading_"
-            android:textAppearance="@android:style/TextAppearance.Large" />
-    </FrameLayout>
+        android:layout_height="200dp"
+        android:layout_marginTop="16dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/Gift_image"
+        android:onClick="changeImageAction"
+        android:scaleType="centerInside"
+        android:src="@drawable/image_mock" />
 
     <TextView
         android:id="@+id/title_text_view"
