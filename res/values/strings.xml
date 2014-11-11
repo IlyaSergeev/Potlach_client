@@ -34,5 +34,6 @@
     <string name="rating_">"Rating = "</string>
     <string name="title">Title</string>
     <string name="loading_">Loading...</string>
+    <string name="there_are_no_gifts">There are no gifts</string>
 
 </resources>

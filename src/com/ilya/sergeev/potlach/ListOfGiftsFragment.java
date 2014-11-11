@@ -22,6 +22,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 {
 	private ListView mListView;
 	private ProgressBar mProgressBar;
+	private View mNoGiftsView;
 	private AsyncTask<Void, Void, List<Gift>> mReloadTask = null;
 	
 	@Override
@@ -33,6 +34,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 		
 		mListView = (ListView) view.findViewById(R.id.list_view);
 		mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+		mNoGiftsView = view.findViewById(R.id.no_gifts_view);
 		
 		return view;
 	}
@@ -97,6 +99,10 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 				if (mListView != null)
 				{
 					mListView.setAdapter(new GiftsAdapter(gifts, new GiftImageLoader(getActivity(), ServerSvc.getServerApi().getGiftsApi())));
+					if (gifts == null || gifts.size() == 0)
+					{
+						mNoGiftsView.setVisibility(View.VISIBLE);
+					}
 				}
 			}
 		};
@@ -115,5 +121,6 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 		{
 			mProgressBar.setVisibility(progressEnable ? View.VISIBLE : View.GONE);
 		}
+		mNoGiftsView.setVisibility(View.GONE);
 	}
 }
