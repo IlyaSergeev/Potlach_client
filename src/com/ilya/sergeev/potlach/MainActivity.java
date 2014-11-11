@@ -54,6 +54,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 		mNavigationDrawerFragment.setUp(
 				R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
+		
+		onSectionAttached(SectionActionType.POTLACH_WALL);
+		onNavigationDrawerItemSelected(SectionActionType.POTLACH_WALL);
 	}
 	
 	@Override
@@ -194,7 +197,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 					MenuItem searchItem = menu.findItem(R.id.action_search);
 					SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 					searchView.setQueryHint("Поиск");
-					//TODO replace method
+					// TODO replace method
 					searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
 					{
 						
