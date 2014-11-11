@@ -17,6 +17,7 @@ public class UsersAdapter extends BaseAdapter
 	
 	public UsersAdapter(List<UserInfo> users)
 	{
+		super();
 		mUsers = users;
 	}
 	

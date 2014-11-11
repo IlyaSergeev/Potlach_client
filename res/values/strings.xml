@@ -32,5 +32,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="generate_some_content">Generate some content</string>
     <string name="rating_">"Rating = "</string>
+    <string name="title">Title</string>
+    <string name="loading_">Loading...</string>
 
 </resources>

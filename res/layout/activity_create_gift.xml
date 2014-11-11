@@ -13,22 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:orientation="vertical" >
-
-            <EditText
-                android:id="@+id/title_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Title (required)"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:singleLine="true"
-                tools:ignore="HardcodedText" >
-
-                <requestFocus />
-            </EditText>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -53,6 +38,21 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center" />
             </FrameLayout>
+
+            <EditText
+                android:id="@+id/title_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:hint="Title (required)"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:singleLine="true"
+                tools:ignore="HardcodedText" >
+
+                <requestFocus />
+            </EditText>
 
             <EditText
                 android:id="@+id/message_text_view"
