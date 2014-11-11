@@ -20,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ilya.sergeev.potlach.client.ServerSvc;
-import com.ilya.sergeev.potlach.model.Broadcasts;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks
 {

@@ -38,7 +38,6 @@ import com.ilya.sergeev.potlach.client.ServerSvc;
 import com.ilya.sergeev.potlach.client.SimpleMessage;
 import com.ilya.sergeev.potlach.client.UserInfoSvcApi;
 import com.ilya.sergeev.potlach.mock.ContentGenerateActivity;
-import com.ilya.sergeev.potlach.model.UserHelper;
 
 /**
  * A login screen that offers login via email/password.

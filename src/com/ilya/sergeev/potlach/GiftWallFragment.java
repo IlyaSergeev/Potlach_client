@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import com.ilya.sergeev.potlach.client.Gift;
 import com.ilya.sergeev.potlach.client.GiftSvcApi;
 import com.ilya.sergeev.potlach.client.ServerSvc;
+import com.ilya.sergeev.potlach.image_loader.GiftImageLoader;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -97,7 +98,7 @@ public class GiftWallFragment extends MainContentFragment
 				
 				if (mListView != null)
 				{
-					mListView.setAdapter(new GiftsAdapter(gifts));
+					mListView.setAdapter(new GiftsAdapter(gifts, new GiftImageLoader(getActivity(), ServerSvc.getServerApi().getGiftsApi())));
 				}
 			}
 		};

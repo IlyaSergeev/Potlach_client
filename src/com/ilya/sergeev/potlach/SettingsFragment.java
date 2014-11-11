@@ -2,7 +2,6 @@ package com.ilya.sergeev.potlach;
 
 import java.util.concurrent.TimeUnit;
 
-import com.ilya.sergeev.potlach.model.Settings;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -1,4 +1,4 @@
-package com.ilya.sergeev.potlach.model;
+package com.ilya.sergeev.potlach;
 
 import android.content.Context;
 import android.content.SharedPreferences;

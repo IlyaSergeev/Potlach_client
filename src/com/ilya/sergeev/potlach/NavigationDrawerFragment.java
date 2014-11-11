@@ -20,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.ilya.sergeev.potlach.model.UserHelper;
 
 public class NavigationDrawerFragment extends Fragment
 {
