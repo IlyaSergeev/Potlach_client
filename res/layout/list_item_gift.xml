@@ -32,9 +32,19 @@
         android:id="@+id/message_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:layout_marginTop="8dp"
         android:text="Message"
+        tools:ignore="HardcodedText" />
+    
+    <TextView
+        android:id="@+id/author_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="3"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="right"
+        android:text="author"
         tools:ignore="HardcodedText" />
 
 </LinearLayout>

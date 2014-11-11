@@ -1,5 +1,7 @@
 package com.ilya.sergeev.potlach;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import android.view.LayoutInflater;
@@ -65,6 +67,11 @@ public class GiftsAdapter extends BaseAdapter
 		
 		TextView messageTextView = (TextView) convertView.findViewById(R.id.message_text_view);
 		messageTextView.setText(gift.getMessage());
+		
+		TextView authorTextView = (TextView) convertView.findViewById(R.id.author_view);
+		Date createDate = new Date(gift.getDate());
+		String authorText = String.format("%s\n%s\n%s", gift.getUserName(), SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT).format(createDate), SimpleDateFormat.getDateInstance().format(createDate));
+		authorTextView.setText(authorText);
 		
 		return convertView;
 	}
