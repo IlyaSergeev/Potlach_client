@@ -86,6 +86,7 @@ class GiftGenerator
 				}
 				
 				giftApi.setImageData(gift.getId(), new TypedFile("image/jpg", to));
+				to.delete();
 			}
 			Log.d(TAG, "create gift user:" + user.getName() + " giftId:" + gift.getId());
 		}

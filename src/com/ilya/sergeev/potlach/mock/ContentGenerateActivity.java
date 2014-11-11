@@ -73,8 +73,8 @@ public class ContentGenerateActivity extends Activity
 			{
 				Random random = new Random();
 				mContentGenerator.createSomeUsers(random.nextInt(5) + 2);
-				mContentGenerator.createSomeGifts(random.nextInt(20) + 3, ContentGenerateActivity.this);
-				mContentGenerator.createSomeVotes(random.nextInt(30), ContentGenerateActivity.this);
+				mContentGenerator.createSomeGifts(random.nextInt(15) + 3, ContentGenerateActivity.this);
+				mContentGenerator.createSomeVotes(random.nextInt(20) + 4, ContentGenerateActivity.this);
 				return null;
 			}
 			
