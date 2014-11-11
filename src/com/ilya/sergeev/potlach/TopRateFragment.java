@@ -43,10 +43,11 @@ public class TopRateFragment extends MainContentFragment
 		if (mRefreshTask == null)
 		{
 			refreshTopRate();
+			showProgress(false);
 		}
 		else
 		{
-			changeProgressBarVisibility(true);
+			showProgress(true);
 		}
 	}
 	
@@ -63,7 +64,7 @@ public class TopRateFragment extends MainContentFragment
 			{
 				super.onPreExecute();
 				
-				changeProgressBarVisibility(true);
+				showProgress(true);
 			}
 			
 			@Override
@@ -90,7 +91,7 @@ public class TopRateFragment extends MainContentFragment
 			{
 				super.onPostExecute(users);
 				
-				changeProgressBarVisibility(false);
+				showProgress(false);
 				mRefreshTask = null;
 				
 				if (mListView != null)
@@ -103,7 +104,7 @@ public class TopRateFragment extends MainContentFragment
 		mRefreshTask.execute();
 	}
 	
-	private void changeProgressBarVisibility(boolean isVisible)
+	private void showProgress(boolean isVisible)
 	{
 		if (mListView != null)
 		{

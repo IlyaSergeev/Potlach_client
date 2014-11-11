@@ -1,10 +1,12 @@
 package com.ilya.sergeev.potlach;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
+import retrofit.client.Response;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ilya.sergeev.potlach.client.Gift;
+import com.ilya.sergeev.potlach.client.GiftSvcApi;
+import com.ilya.sergeev.potlach.client.ServerSvc;
 
 public class GiftsAdapter extends BaseAdapter
 {
@@ -55,27 +59,57 @@ public class GiftsAdapter extends BaseAdapter
 			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_gift, parent, false);
 		}
 		
-		Gift gift = mGifts.get(position);
+		final Gift gift = mGifts.get(position);
 		
 		// TODO extract loading to background
-		View loadingText = convertView.findViewById(R.id.loading_view);
-		ImageView imageView = (ImageView) convertView.findViewById(R.id.image_view);
+		final View loadingText = convertView.findViewById(R.id.loading_view);
+		final ImageView imageView = (ImageView) convertView.findViewById(R.id.image_view);
 		if (!TextUtils.isEmpty(gift.getUrl()))
 		{
-			try
+			
+			new AsyncTask<Void, Void, Bitmap>()
 			{
-				URL url = new URL(gift.getUrl());
-				imageView.setImageBitmap(BitmapFactory.decodeStream(url.openStream()));
-				imageView.setBackgroundResource(0);
-				loadingText.setVisibility(View.GONE);
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-				imageView.setBackgroundResource(R.drawable.border);
-				imageView.setImageBitmap(null);
-				loadingText.setVisibility(View.VISIBLE);
-			}
+				@Override
+				protected void onPreExecute()
+				{
+					super.onPreExecute();
+					
+					imageView.setBackgroundResource(R.drawable.border);
+					imageView.setImageBitmap(null);
+					loadingText.setVisibility(View.VISIBLE);
+				}
+				
+				@Override
+				protected Bitmap doInBackground(Void... params)
+				{
+					GiftSvcApi giftApi = ServerSvc.getServerApi().getGiftsApi();
+					Response response = giftApi.getData(gift.getId());
+					Bitmap result = null;
+					try
+					{
+						result = BitmapFactory.decodeStream(response.getBody().in());
+					}
+					catch (IOException e)
+					{
+						result = null;
+						e.printStackTrace();
+					}
+					return result;
+				}
+				
+				@Override
+				protected void onPostExecute(Bitmap result)
+				{
+					super.onPostExecute(result);
+					
+					if (result != null)
+					{
+						imageView.setBackgroundResource(0);
+						imageView.setImageBitmap(result);
+						loadingText.setVisibility(View.GONE);
+					}
+				}
+			}.execute();
 		}
 		else
 		{
@@ -92,5 +126,4 @@ public class GiftsAdapter extends BaseAdapter
 		
 		return convertView;
 	}
-	
 }

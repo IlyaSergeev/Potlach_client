@@ -15,16 +15,15 @@
         <ImageView
             android:id="@+id/image_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:adjustViewBounds="true"
+            android:background="@drawable/border"
             android:contentDescription="@string/Gift_image"
-            android:minHeight="200dp"
             android:onClick="changeImageAction"
-            android:scaleType="centerInside"
-            android:background="@drawable/border" />
+            android:scaleType="centerInside" />
 
         <TextView
-            android:id="@+id/loding_text_view"
+            android:id="@+id/loading_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -47,6 +46,7 @@
         android:id="@+id/message_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginTop="8dp"
         android:text="Message"
         tools:ignore="HardcodedText" />

@@ -8,6 +8,7 @@ public class Gift
 	private String userName;
 	private String title;
 	private String message;
+	@Deprecated
 	private String url;
 	private String contentType = "image/jpg";
 	private long date = System.currentTimeMillis();
