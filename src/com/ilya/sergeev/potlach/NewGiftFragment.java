@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-public class GiftWallFragment extends MainContentFragment
+public class NewGiftFragment extends MainContentFragment
 {
 	private ListView mListView;
 	private ProgressBar mProgressBar;

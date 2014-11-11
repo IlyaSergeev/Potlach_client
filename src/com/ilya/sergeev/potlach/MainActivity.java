@@ -260,7 +260,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 					break;
 				
 				case POTLACH_WALL:
-					resultFragment = new GiftWallFragment();
+					resultFragment = new NewGiftFragment();
 					break;
 				
 				case POTLACH_TOP_RATE:

@@ -3,13 +3,14 @@ package com.ilya.sergeev.potlach.mock;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Set;
 
 import junit.framework.Assert;
 import retrofit.RetrofitError;
-
 import android.util.Log;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.ilya.sergeev.potlach.client.ServerSvc;
 import com.ilya.sergeev.potlach.client.UserInfo;
 import com.ilya.sergeev.potlach.client.UserInfoSvcApi;
@@ -26,13 +27,13 @@ class UsersGenerator
 		
 	
 	private static final String[] sUserNames = new String[] { "Kate", "Anne", "Vasya", "John", "Bard", "Homer", "Liza", "Ilya" };
-	private static final String[] sEmailDomains = new String[] { "@mail.com", "@yayaya.org", "@home.com", "@goolge.com", "hooya.com" };
 	
 	public static final String DEFAULT_PASSWORD = "111";
 	
 	private int mIndex = 0;
 
 	private final List<UserInfo> mUsers = Lists.newArrayList();
+	private final Set<String> mUserNames = Sets.newHashSet();
 	private UserInfoSvcApi mUsersApi;
 	
 	public UsersGenerator(UserInfoSvcApi usersApi)
@@ -73,9 +74,14 @@ class UsersGenerator
 	private String newUserName()
 	{
 		int nameInd = sRandom.nextInt(sUserNames.length);
-		int domainInd = sRandom.nextInt(sEmailDomains.length);
-		mIndex++;
 		
-		return String.format(Locale.getDefault(), "%s_%d%s", sUserNames[nameInd], mIndex, sEmailDomains[domainInd]) ; 
+		String userName = sUserNames[nameInd];
+		if (mUserNames.contains(userName))
+		{
+			mIndex++;
+			userName = String.format(Locale.getDefault(), "%s_%d", sUserNames[nameInd], mIndex) ;
+		}
+		mUserNames.add(userName);
+		return userName;
 	}
 }
