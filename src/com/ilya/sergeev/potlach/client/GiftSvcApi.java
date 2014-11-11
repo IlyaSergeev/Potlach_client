@@ -19,7 +19,7 @@ public interface GiftSvcApi
 	public static final String GIFT_PATH = "/gifts";
 	
 	public static final String SINGLE_GIFT_PATH = GIFT_PATH + "/{id}";
-	public static final String NEW_GIFT_PATH = GIFT_PATH + "/new";
+	public static final String ALL_GIFT_PATH = GIFT_PATH + "/all";
 	public static final String MY_GIFT_PATH = GIFT_PATH + "/my";
 	public static final String SEARCH_GIFT_PATH = GIFT_PATH + "/search";
 	public static final String CREATE_GIFT_PATH = GIFT_PATH + "/create";
@@ -29,14 +29,16 @@ public interface GiftSvcApi
 	public static final String ID_PARAM = "id";
 	public static final String TAG_PARAM = "tag";
 	public static final String DATA_PARAMETER = "data";
-	public static final String TITLE_PARAM = "title";
-	public static final String MESSAGE_PARAM = "msg";
+	public static final String USER_PARAM = "user";
 	
-	@GET(NEW_GIFT_PATH)
-	public Collection<Gift> getNewGifts();
+	@GET(ALL_GIFT_PATH)
+	public Collection<Gift> getAllGifts();
 	
 	@GET(MY_GIFT_PATH)
 	public Collection<Gift> getMyGifts();
+	
+	@GET(GIFT_PATH)
+	public Collection<Gift> getGifts(@Query(USER_PARAM) String userName);
 	
 	@GET(SINGLE_GIFT_PATH)
 	public Gift getGift(@Path(ID_PARAM) long id);

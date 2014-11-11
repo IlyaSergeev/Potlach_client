@@ -11,6 +11,6 @@ public class NewGiftFragment extends ListOfGiftsFragment
 	@Override
 	protected Collection<Gift> getGifts()
 	{
-		return ServerSvc.getServerApi().getGiftsApi().getNewGifts();
+		return ServerSvc.getServerApi().getGiftsApi().getAllGifts();
 	}
 }
