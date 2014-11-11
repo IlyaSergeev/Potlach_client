@@ -7,7 +7,6 @@ import retrofit.client.Response;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,59 +63,50 @@ public class GiftsAdapter extends BaseAdapter
 		// TODO extract loading to background
 		final View loadingText = convertView.findViewById(R.id.loading_view);
 		final ImageView imageView = (ImageView) convertView.findViewById(R.id.image_view);
-		if (!TextUtils.isEmpty(gift.getUrl()))
+		
+		new AsyncTask<Void, Void, Bitmap>()
 		{
-			
-			new AsyncTask<Void, Void, Bitmap>()
+			@Override
+			protected void onPreExecute()
 			{
-				@Override
-				protected void onPreExecute()
-				{
-					super.onPreExecute();
-					
-					imageView.setBackgroundResource(R.drawable.border);
-					imageView.setImageBitmap(null);
-					loadingText.setVisibility(View.VISIBLE);
-				}
+				super.onPreExecute();
 				
-				@Override
-				protected Bitmap doInBackground(Void... params)
+				imageView.setBackgroundResource(R.drawable.border);
+				imageView.setImageBitmap(null);
+				loadingText.setVisibility(View.VISIBLE);
+			}
+			
+			@Override
+			protected Bitmap doInBackground(Void... params)
+			{
+				GiftSvcApi giftApi = ServerSvc.getServerApi().getGiftsApi();
+				Response response = giftApi.getData(gift.getId());
+				Bitmap result = null;
+				try
 				{
-					GiftSvcApi giftApi = ServerSvc.getServerApi().getGiftsApi();
-					Response response = giftApi.getData(gift.getId());
-					Bitmap result = null;
-					try
-					{
-						result = BitmapFactory.decodeStream(response.getBody().in());
-					}
-					catch (IOException e)
-					{
-						result = null;
-						e.printStackTrace();
-					}
-					return result;
+					result = BitmapFactory.decodeStream(response.getBody().in());
 				}
+				catch (IOException e)
+				{
+					result = null;
+					e.printStackTrace();
+				}
+				return result;
+			}
+			
+			@Override
+			protected void onPostExecute(Bitmap result)
+			{
+				super.onPostExecute(result);
 				
-				@Override
-				protected void onPostExecute(Bitmap result)
+				if (result != null)
 				{
-					super.onPostExecute(result);
-					
-					if (result != null)
-					{
-						imageView.setBackgroundResource(0);
-						imageView.setImageBitmap(result);
-						loadingText.setVisibility(View.GONE);
-					}
+					imageView.setBackgroundResource(0);
+					imageView.setImageBitmap(result);
+					loadingText.setVisibility(View.GONE);
 				}
-			}.execute();
-		}
-		else
-		{
-			imageView.setBackgroundResource(R.drawable.border);
-			imageView.setImageBitmap(null);
-			loadingText.setVisibility(View.VISIBLE);
-		}
+			}
+		}.execute();
 		
 		TextView titleTextView = (TextView) convertView.findViewById(R.id.title_text_view);
 		titleTextView.setText(gift.getTitle());
