@@ -58,6 +58,7 @@ public class CreateGiftActivity extends ActionBarActivity
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		mImageView = (ImageView) findViewById(R.id.image_view);
+		mImageView.setBackgroundResource(0);
 		mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 		mLoadingView = findViewById(R.id.loading_view);
 		mSendingTextView = (TextView) findViewById(R.id.sending_text_view);
