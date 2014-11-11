@@ -40,7 +40,7 @@ import com.ilya.sergeev.potlach.client.UserInfoSvcApi;
 import com.ilya.sergeev.potlach.mock.ContentGenerateActivity;
 
 /**
- * A login screen that offers login via email/password.
+ * A login screen that offers login via login/password.
  */
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 {
@@ -175,14 +175,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 		}
 	}
 	
-	private boolean isLoginValid(String email)
+	private boolean isLoginValid(String login)
 	{
-		return "admin".equals(email) || email.contains("@");
+		return login.length() > 5;
 	}
 	
 	private boolean isPasswordValid(String password)
 	{
-		return true; // password.length() > 4;
+		return password.length() > 4;
 	}
 	
 	/**
