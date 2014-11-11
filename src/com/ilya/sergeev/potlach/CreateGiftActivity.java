@@ -337,7 +337,7 @@ public class CreateGiftActivity extends ActionBarActivity
 			{
 				imageFile = DialogHelper.createImageFile();
 				OutputStream out = new FileOutputStream(imageFile);
-				mImageBitmap.compress(CompressFormat.JPEG, 100, out);
+				mImageBitmap.compress(CompressFormat.JPEG, 75, out);
 				
 				GiftSvcApi giftsApi = ServerSvc.getServerApi().getGiftsApi();
 				Gift gift = new Gift(mTitle, mMessage);

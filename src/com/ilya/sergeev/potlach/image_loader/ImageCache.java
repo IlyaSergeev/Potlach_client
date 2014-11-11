@@ -10,14 +10,15 @@ class ImageCache
 	
 	public ImageCache(Context context)
 	{
-		if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
-		{
-			cacheDir = new File(android.os.Environment.getExternalStorageDirectory(), "TempImages");
-		}
-		else
-		{
-			cacheDir = context.getCacheDir();
-		}
+		cacheDir = context.getCacheDir();
+//		if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
+//		{
+//			cacheDir = new File(android.os.Environment.getExternalStorageDirectory(), "TempImages");
+//		}
+//		else
+//		{
+//			cacheDir = context.getCacheDir();
+//		}
 		if (!cacheDir.exists())
 		{
 			cacheDir.mkdirs();
