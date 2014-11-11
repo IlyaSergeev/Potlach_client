@@ -23,13 +23,13 @@
                 <ImageView
                     android:id="@+id/image_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="200dp"
                     android:adjustViewBounds="true"
+                    android:src="@drawable/image_mock"
                     android:contentDescription="@string/Gift_image"
                     android:minHeight="200dp"
                     android:onClick="changeImageAction"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/border" />
+                    android:scaleType="centerInside" />
 
                 <ProgressBar
                     android:id="@+id/progress_bar"
