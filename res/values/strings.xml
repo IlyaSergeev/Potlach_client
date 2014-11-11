@@ -16,7 +16,7 @@
     <string name="action_settings">Settings</string>
     <string name="Gift_image">Gift image</string>
     <string name="sending_">Sending#8230;</string>
-    <string name="cancelling_">Cancelling#8230;</string>
+    <string name="cancelling_">Cancelling&#8230;</string>
     <string name="sending_was_cancelled">Sending was cancelled</string>
     <string name="enter_some_words_as_a_title">Enter some words as a title</string>
     <string name="update_every_">Update every:</string>
