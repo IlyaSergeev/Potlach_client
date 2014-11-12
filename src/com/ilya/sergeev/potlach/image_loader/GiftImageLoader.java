@@ -5,34 +5,41 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import retrofit.client.Response;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.widget.ImageView;
 
+import com.google.common.collect.Lists;
 import com.ilya.sergeev.potlach.client.Gift;
 import com.ilya.sergeev.potlach.client.GiftSvcApi;
 
 public class GiftImageLoader
 {
+	private volatile boolean mCanUpdate = true;
+	
 	private final MemoryCache memoryCache = new MemoryCache();
 	private final ImageCache fileCache;
 	private final Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
 	private final ExecutorService executorService;
 	private final GiftSvcApi mGiftApi;
+	private final Handler mHandler;
+	private final List<BitmapDisplayer> mHoldTasks = Lists.newArrayList();
 	
 	public GiftImageLoader(Context context, GiftSvcApi giftApi)
 	{
 		fileCache = new ImageCache(context);
 		executorService = Executors.newFixedThreadPool(5);
 		mGiftApi = giftApi;
+		mHandler = new Handler();
 	}
 	
 	public void DisplayImage(Gift gift, int loaderImage, ImageView imageView)
@@ -134,8 +141,17 @@ public class GiftImageLoader
 				return;
 			}
 			BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad);
-			Activity a = (Activity) photoToLoad.mImageView.getContext();
-			a.runOnUiThread(bd);
+			synchronized (mHoldTasks)
+			{
+				if (isCanUpdate())
+				{
+					mHandler.post(bd);
+				}
+				else
+				{
+					mHoldTasks.add(bd);
+				}
+			}
 		}
 	}
 	
@@ -178,6 +194,30 @@ public class GiftImageLoader
 	{
 		memoryCache.clear();
 		fileCache.clear();
+	}
+	
+	public boolean isCanUpdate()
+	{
+		synchronized (this)
+		{
+			return mCanUpdate;
+		}
+	}
+	
+	public synchronized void setCanUpdate(boolean mCanUpdate)
+	{
+		this.mCanUpdate = mCanUpdate;
+		if (mCanUpdate)
+		{
+			synchronized (mHoldTasks)
+			{
+				for (BitmapDisplayer task : mHoldTasks)
+				{
+					mHandler.post(task);
+				}
+				mHoldTasks.clear();
+			}
+		}
 	}
 	
 }

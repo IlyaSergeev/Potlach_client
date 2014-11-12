@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -24,15 +25,31 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 	private ProgressBar mProgressBar;
 	private View mNoGiftsView;
 	private AsyncTask<Void, Void, List<Gift>> mReloadTask = null;
+	private GiftImageLoader mImageLoader;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
 	{
 		super.onCreateView(inflater, container, savedInstanceState);
 		
+		mImageLoader = new GiftImageLoader(inflater.getContext(), ServerSvc.getServerApi().getGiftsApi());
 		View view = inflater.inflate(R.layout.fragment_gift_wall, container, false);
 		
 		mListView = (ListView) view.findViewById(R.id.list_view);
+		mListView.setOnScrollListener(new ListView.OnScrollListener()
+		{
+			
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState)
+			{
+				mImageLoader.setCanUpdate(scrollState == SCROLL_STATE_IDLE);
+			}
+			
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+			{
+			}
+		});
 		mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 		mNoGiftsView = view.findViewById(R.id.no_gifts_view);
 		
@@ -98,7 +115,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 				
 				if (mListView != null)
 				{
-					mListView.setAdapter(new GiftsAdapter(gifts, new GiftImageLoader(getActivity(), ServerSvc.getServerApi().getGiftsApi())));
+					mListView.setAdapter(new GiftsAdapter(gifts, mImageLoader));
 					if (gifts == null || gifts.size() == 0)
 					{
 						mNoGiftsView.setVisibility(View.VISIBLE);
