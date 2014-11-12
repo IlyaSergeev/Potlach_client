@@ -18,7 +18,6 @@
             android:layout_height="200dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/Gift_image"
-            android:onClick="changeImageAction"
             android:scaleType="centerInside"
             android:src="@drawable/image_mock" />
 
