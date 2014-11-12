@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="right"
-        android:text="@string/rating"
+        android:text="@string/touches"
         android:textAppearance="@android:style/TextAppearance.Medium" />
 
 </LinearLayout>
