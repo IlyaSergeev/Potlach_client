@@ -197,21 +197,22 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 					MenuItem searchItem = menu.findItem(R.id.action_search);
 					SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 					searchView.setQueryHint("Поиск");
-					// TODO replace method
 					searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
 					{
 						
 						@Override
 						public boolean onQueryTextSubmit(String arg0)
 						{
-							// TODO Auto-generated method stub
-							return false;
+							Intent searchIntent = new Intent(Broadcasts.SEARCH_GIFTS_BROADCAST);
+							searchIntent.putExtra(Broadcasts.PARAM_KEY_WORD, arg0);
+							sendBroadcast(searchIntent);
+							
+							return true;
 						}
 						
 						@Override
 						public boolean onQueryTextChange(String arg0)
 						{
-							// TODO Auto-generated method stub
 							return false;
 						}
 					});

@@ -1,19 +1,60 @@
 package com.ilya.sergeev.potlach;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import java.util.Collection;
 
-public class SearchFragment extends MainContentFragment
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.text.TextUtils;
+
+import com.ilya.sergeev.potlach.client.GiftInfo;
+import com.ilya.sergeev.potlach.client.GiftSvcApi;
+import com.ilya.sergeev.potlach.client.ServerSvc;
+
+public class SearchFragment extends ListOfGiftsFragment
 {
-	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+	private String mKeyString = "";
+	
+	public void setKeyString(String keyString)
 	{
-		super.onCreateView(inflater, container, savedInstanceState);
-		View view = inflater.inflate(R.layout.fragment_search, container, false);
-		//TODO initialize view
-		return view;
+		mKeyString = keyString;
+		reloadGifts();
+	}
+	
+	private BroadcastReceiver mBroadcast = new BroadcastReceiver()
+	{
+		
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			setKeyString(intent.getExtras().getString(Broadcasts.PARAM_KEY_WORD));
+		}
+	};
+	
+	@Override
+	protected Collection<GiftInfo> getGifts()
+	{
+		if (TextUtils.isEmpty(mKeyString))
+		{
+			return null;
+		}
+		return ServerSvc.getServerApi().getApi(GiftSvcApi.class).searchGift(mKeyString);
+	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		
+		getActivity().registerReceiver(mBroadcast, new IntentFilter(Broadcasts.SEARCH_GIFTS_BROADCAST));
+	}
+	
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		
+		getActivity().unregisterReceiver(mBroadcast);
 	}
 }

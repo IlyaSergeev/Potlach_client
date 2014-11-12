@@ -83,7 +83,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 		super.onCreateView(inflater, container, savedInstanceState);
 		
 		mImageLoader = new GiftImageLoader(inflater.getContext(), ServerSvc.getServerApi().getApi(GiftSvcApi.class));
-		View view = inflater.inflate(R.layout.fragment_gift_wall, container, false);
+		View view = inflater.inflate(R.layout.fragment_gift_list, container, false);
 		
 		mListView = (ListView) view.findViewById(R.id.list_view);
 		mListView.setOnItemClickListener(new ListView.OnItemClickListener()
@@ -138,7 +138,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 		
 		if (mReloadTask == null)
 		{
-			reloadPotlaches();
+			reloadGifts();
 			showProgress(false);
 		}
 		else
@@ -147,7 +147,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 		}
 	}
 	
-	private void reloadPotlaches()
+	protected void reloadGifts()
 	{
 		if (mReloadTask != null)
 		{
@@ -169,7 +169,11 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 				List<GiftInfo> gifts = null;
 				try
 				{
-					gifts = Lists.newArrayList(getGifts());
+					Collection<GiftInfo> giftsOrigin = getGifts();
+					if (giftsOrigin != null)
+					{
+						gifts = Lists.newArrayList(giftsOrigin);
+					}
 				}
 				catch (RetrofitError ex)
 				{
