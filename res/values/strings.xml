@@ -35,5 +35,6 @@
     <string name="title">Title</string>
     <string name="loading_">Loading&#8230;</string>
     <string name="there_are_no_gifts">There are no gifts</string>
+    <string name="clear_cache">Clear cache</string>
 
 </resources>

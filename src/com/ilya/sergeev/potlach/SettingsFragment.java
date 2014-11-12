@@ -2,6 +2,8 @@ package com.ilya.sergeev.potlach;
 
 import java.util.concurrent.TimeUnit;
 
+import com.ilya.sergeev.potlach.image_loader.MemoryCache;
+
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -81,5 +83,10 @@ public class SettingsFragment extends MainContentFragment
 		super.onPause();
 		
 		mUpdateGroup.setOnCheckedChangeListener(null);
+	}
+	
+	public void clearCache(View sender)
+	{
+		new MemoryCache().clear(); 
 	}
 }

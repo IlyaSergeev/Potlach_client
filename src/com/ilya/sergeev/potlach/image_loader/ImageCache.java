@@ -6,33 +6,25 @@ import android.content.Context;
 
 class ImageCache
 {
-	private File cacheDir;
+	private File mCacheDir;
 	
 	public ImageCache(Context context)
 	{
-		cacheDir = context.getCacheDir();
-//		if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
-//		{
-//			cacheDir = new File(android.os.Environment.getExternalStorageDirectory(), "TempImages");
-//		}
-//		else
-//		{
-//			cacheDir = context.getCacheDir();
-//		}
-		if (!cacheDir.exists())
+		mCacheDir = context.getCacheDir();
+		if (!mCacheDir.exists())
 		{
-			cacheDir.mkdirs();
+			mCacheDir.mkdirs();
 		}
 	}
 	
 	public File getFile(String fileName)
 	{
-		return new File(cacheDir, fileName);
+		return new File(mCacheDir, fileName);
 	}
 	
 	public void clear()
 	{
-		File[] files = cacheDir.listFiles();
+		File[] files = mCacheDir.listFiles();
 		if (files == null)
 		{
 			return;
