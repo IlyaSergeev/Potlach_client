@@ -22,34 +22,16 @@ public class ServerSvcApi
 		return new ServerSvcApi(adapter);
 	}
 	
-	private final UserInfoSvcApi mUsersApi;
-	private final VoteSvcApi mVotesApi;
-	private final GiftSvcApi mGiftsApi;
+	private final RestAdapter mRestAdapter;
 	
 	private ServerSvcApi(RestAdapter adapter)
 	{
-		this(adapter.create(UserInfoSvcApi.class), adapter.create(VoteSvcApi.class), adapter.create(GiftSvcApi.class));
+		mRestAdapter = adapter;
 	}
 	
-	private ServerSvcApi(UserInfoSvcApi usersApi, VoteSvcApi votesApi, GiftSvcApi giftsApi)
+	public <T> T getApi(Class<T> apiClass)
 	{
-		mUsersApi = usersApi;
-		mVotesApi = votesApi;
-		mGiftsApi = giftsApi;
+		return mRestAdapter.create(apiClass);
 	}
 	
-	public UserInfoSvcApi getUsersApi()
-	{
-		return mUsersApi;
-	}
-	
-	public VoteSvcApi getVotesApi()
-	{
-		return mVotesApi;
-	}
-	
-	public GiftSvcApi getGiftsApi()
-	{
-		return mGiftsApi;
-	}
 }

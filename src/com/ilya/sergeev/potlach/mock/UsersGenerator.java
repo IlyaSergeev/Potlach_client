@@ -19,7 +19,7 @@ class UsersGenerator
 {
 	public static UsersGenerator getGenerator()
 	{
-		return new UsersGenerator(ServerSvc.getServerApi().getUsersApi());
+		return new UsersGenerator(ServerSvc.getServerApi().getApi(UserInfoSvcApi.class));
 	}
 	
 	private static final String TAG = UsersGenerator.class.getName();

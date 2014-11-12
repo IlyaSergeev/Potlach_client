@@ -339,7 +339,7 @@ public class CreateGiftActivity extends ActionBarActivity
 				OutputStream out = new FileOutputStream(imageFile);
 				mImageBitmap.compress(CompressFormat.JPEG, 75, out);
 				
-				GiftSvcApi giftsApi = ServerSvc.getServerApi().getGiftsApi();
+				GiftSvcApi giftsApi = ServerSvc.getServerApi().getApi(GiftSvcApi.class);
 				Gift gift = new Gift(mTitle, mMessage);
 				gift = giftsApi.createGift(gift);
 				giftsApi.setImageData(gift.getId(), new TypedFile("image/jpg", imageFile));

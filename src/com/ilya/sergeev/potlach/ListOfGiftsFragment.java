@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import com.google.common.collect.Lists;
 import com.ilya.sergeev.potlach.client.Gift;
 import com.ilya.sergeev.potlach.client.GiftInfo;
+import com.ilya.sergeev.potlach.client.GiftSvcApi;
 import com.ilya.sergeev.potlach.client.ServerSvc;
 import com.ilya.sergeev.potlach.client.Vote;
 import com.ilya.sergeev.potlach.image_loader.GiftImageLoader;
@@ -49,7 +50,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 			Activity activity = getActivity();
 			if (activity != null)
 			{
-				Intent voteUpIntent = TasksMaker.getVoteUp(activity, giftId);
+				Intent voteUpIntent = TasksMaker.getVoteUpIntent(activity, giftId);
 				activity.startService(voteUpIntent);
 			}
 		}
@@ -69,7 +70,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 			Activity activity = getActivity();
 			if (activity != null)
 			{
-				Intent voteDownIntent = TasksMaker.getVoteDown(activity, giftId);
+				Intent voteDownIntent = TasksMaker.getVoteDownIntent(activity, giftId);
 				activity.startService(voteDownIntent);
 			}
 		}
@@ -80,13 +81,13 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 	{
 		super.onCreateView(inflater, container, savedInstanceState);
 		
-		mImageLoader = new GiftImageLoader(inflater.getContext(), ServerSvc.getServerApi().getGiftsApi());
+		mImageLoader = new GiftImageLoader(inflater.getContext(), ServerSvc.getServerApi().getApi(GiftSvcApi.class));
 		View view = inflater.inflate(R.layout.fragment_gift_wall, container, false);
 		
 		mListView = (ListView) view.findViewById(R.id.list_view);
 		mListView.setOnItemClickListener(new ListView.OnItemClickListener()
 		{
-
+			
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
@@ -94,8 +95,17 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 				if (obj instanceof GiftInfo)
 				{
 					GiftInfo giftInfo = (GiftInfo) obj;
-					Gift gift = giftInfo.getGift(); 
-					//TODO show single gift 
+					giftInfo.setWasTouched(true);
+					Gift gift = giftInfo.getGift();
+					
+					Activity activity = getActivity();
+					if (activity != null)
+					{
+						Intent touchIntent = TasksMaker.getTouchIntent(activity, gift.getId());
+						activity.startService(touchIntent);
+					}
+					
+					// TODO show single gift
 				}
 			}
 		});

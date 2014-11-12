@@ -353,7 +353,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 			UserInfoSvcApi serverApi = null;
 			try
 			{
-				serverApi = ServerSvc.signin(mEmail, mPassword).getUsersApi();
+				serverApi = ServerSvc.signin(mEmail, mPassword).getApi(UserInfoSvcApi.class);
 				SimpleMessage helloMsg = serverApi.getHello();
 				if (!Objects.equal(helloMsg.getUserName(), mEmail))
 				{
@@ -371,10 +371,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>
 				{
 					try
 					{
-						serverApi = ServerSvc.signout().getUsersApi();
+						serverApi = ServerSvc.signout().getApi(UserInfoSvcApi.class);
 						serverApi.createUser(mEmail, mPassword);
 						
-						serverApi = ServerSvc.signin(mEmail, mPassword).getUsersApi();
+						serverApi = ServerSvc.signin(mEmail, mPassword).getApi(UserInfoSvcApi.class);
 						SimpleMessage helloMsg = serverApi.getHello();
 						if (!Objects.equal(helloMsg.getUserName(), mEmail))
 						{

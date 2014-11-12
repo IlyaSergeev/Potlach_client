@@ -70,7 +70,7 @@ public class TopRateFragment extends MainContentFragment
 			@Override
 			protected List<UserInfo> doInBackground(Void... params)
 			{
-				UserInfoSvcApi userApi = ServerSvc.getServerApi().getUsersApi();
+				UserInfoSvcApi userApi = ServerSvc.getServerApi().getApi(UserInfoSvcApi.class);
 				
 				List<UserInfo> users = null;
 				try
