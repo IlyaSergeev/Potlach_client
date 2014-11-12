@@ -2,6 +2,7 @@ package com.ilya.sergeev.potlach.client;
 
 import java.util.Collection;
 
+
 import retrofit.client.Response;
 import retrofit.http.GET;
 import retrofit.http.POST;

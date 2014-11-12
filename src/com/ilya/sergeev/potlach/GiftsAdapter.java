@@ -12,14 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ilya.sergeev.potlach.client.Gift;
+import com.ilya.sergeev.potlach.client.GiftInfo;
 import com.ilya.sergeev.potlach.image_loader.GiftImageLoader;
 
 public class GiftsAdapter extends BaseAdapter
 {
-	private final List<Gift> mGifts;
+	private final List<GiftInfo> mGifts;
 	private final GiftImageLoader mImageLoader;
 	
-	public GiftsAdapter(List<Gift> gifts, GiftImageLoader imageLoader)
+	public GiftsAdapter(List<GiftInfo> gifts, GiftImageLoader imageLoader)
 	{
 		super();
 		
@@ -57,7 +58,9 @@ public class GiftsAdapter extends BaseAdapter
 			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_gift, parent, false);
 		}
 		
-		Gift gift = mGifts.get(position);
+		//TODO refresh vote
+		GiftInfo giftInfo = mGifts.get(position);
+		Gift gift = giftInfo.getGift();
 		
 		ImageView imageView = (ImageView) convertView.findViewById(R.id.image_view);		
 		mImageLoader.DisplayImage(gift, R.drawable.image_mock, imageView);
@@ -70,7 +73,7 @@ public class GiftsAdapter extends BaseAdapter
 		
 		TextView authorTextView = (TextView) convertView.findViewById(R.id.author_view);
 		Date createDate = new Date(gift.getDate());
-		String authorText = String.format("%s\n%s\n%s", gift.getUserName(), SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT).format(createDate), SimpleDateFormat.getDateInstance().format(createDate));
+		String authorText = String.format("%s\n%s\n%s", gift.getOwner(), SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT).format(createDate), SimpleDateFormat.getDateInstance().format(createDate));
 		authorTextView.setText(authorText);
 		
 		return convertView;

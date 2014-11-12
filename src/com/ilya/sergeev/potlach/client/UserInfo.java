@@ -11,6 +11,17 @@ public class UserInfo
 	
 	private int rating = 0;
 	
+	public UserInfo()
+	{
+		
+	}
+	
+	public UserInfo(String name, String password)
+	{
+		this.name = name;
+		this.password = password;
+	}
+	
 	public long getId()
 	{
 		return id;
@@ -50,14 +61,14 @@ public class UserInfo
 	@Override
 	public boolean equals(Object obj)
 	{
-		return (obj instanceof UserInfo) && Objects.equal(getName(), ((UserInfo)obj).getName());
+		return (obj instanceof UserInfo) && Objects.equal(getName(), ((UserInfo) obj).getName());
 	}
-
+	
 	public int getRating()
 	{
 		return rating;
 	}
-
+	
 	public void setRating(int rating)
 	{
 		this.rating = rating;

@@ -17,7 +17,7 @@ public interface VoteSvcApi
 	public static final String VOTE_PARAM = "vote";
 	
 	@GET(VOTE_PATH)
-	public VoteInfo getVoteOfGift(@Query(GIFT_ID_PARAM) long giftId);
+	public Vote getVoteOfGift(@Query(GIFT_ID_PARAM) long giftId);
 	
 	@GET(SINGLE_VOTE_PATH)
 	public Vote getVote(@Path(ID_PARAM) long ig);

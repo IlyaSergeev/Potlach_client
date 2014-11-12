@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.google.common.collect.Lists;
-import com.ilya.sergeev.potlach.client.Gift;
+import com.ilya.sergeev.potlach.client.GiftInfo;
 import com.ilya.sergeev.potlach.client.ServerSvc;
 import com.ilya.sergeev.potlach.image_loader.GiftImageLoader;
 
@@ -24,7 +24,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 	private ListView mListView;
 	private ProgressBar mProgressBar;
 	private View mNoGiftsView;
-	private AsyncTask<Void, Void, List<Gift>> mReloadTask = null;
+	private AsyncTask<Void, Void, List<GiftInfo>> mReloadTask = null;
 	private GiftImageLoader mImageLoader;
 	
 	@Override
@@ -78,7 +78,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 		{
 			mReloadTask.cancel(false);
 		}
-		mReloadTask = new AsyncTask<Void, Void, List<Gift>>()
+		mReloadTask = new AsyncTask<Void, Void, List<GiftInfo>>()
 		{
 			@Override
 			protected void onPreExecute()
@@ -88,10 +88,10 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 			}
 			
 			@Override
-			protected List<Gift> doInBackground(Void... params)
+			protected List<GiftInfo> doInBackground(Void... params)
 			{
 				
-				List<Gift> gifts = null;
+				List<GiftInfo> gifts = null;
 				try
 				{
 					gifts = Lists.newArrayList(getGifts());
@@ -106,7 +106,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 			}
 			
 			@Override
-			protected void onPostExecute(List<Gift> gifts)
+			protected void onPostExecute(List<GiftInfo> gifts)
 			{
 				super.onPostExecute(gifts);
 				
@@ -126,7 +126,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 		mReloadTask.execute();
 	}
 	
-	protected abstract Collection<Gift> getGifts();
+	protected abstract Collection<GiftInfo> getGifts();
 	
 	private void showProgress(boolean progressEnable)
 	{

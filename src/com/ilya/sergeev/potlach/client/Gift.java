@@ -5,10 +5,14 @@ import com.google.common.base.Objects;
 public class Gift
 {
 	private long id;
-	private String userName;
+	
+	private String owner;
+	
 	private String title;
-	private String message;
+	private String message = null;
+	private int rating = 0;
 	private String contentType = "image/jpg";
+	
 	private long date = System.currentTimeMillis();
 	
 	public Gift()
@@ -55,16 +59,17 @@ public class Gift
 	@Override
 	public int hashCode()
 	{
-		return Objects.hashCode(getUserName(), getTitle(), getMessage());
+		return Objects.hashCode(getOwner(), getTitle(), getMessage(), getRating());
 	}
 	
 	@Override
 	public boolean equals(Object obj)
 	{
 		return (obj instanceof Gift)
-				&& Objects.equal(getUserName(), ((Gift) obj).getUserName())
+				&& Objects.equal(getOwner(), ((Gift) obj).getOwner())
 				&& Objects.equal(getTitle(), ((Gift) obj).getTitle())
-				&& Objects.equal(getMessage(), ((Gift) obj).getMessage());
+				&& Objects.equal(getMessage(), ((Gift) obj).getMessage())
+				&& getRating() == ((Gift) obj).getRating();
 	}
 	
 	public long getDate()
@@ -77,14 +82,14 @@ public class Gift
 		this.date = date;
 	}
 	
-	public String getUserName()
+	public String getOwner()
 	{
-		return userName;
+		return owner;
 	}
 	
-	public void setUserName(String userName)
+	public void setOwner(String owner)
 	{
-		this.userName = userName;
+		this.owner = owner;
 	}
 
 	public String getContentType()
@@ -95,5 +100,15 @@ public class Gift
 	public void setContentType(String contentType)
 	{
 		this.contentType = contentType;
+	}
+
+	public int getRating()
+	{
+		return rating;
+	}
+
+	public void setRating(int rating)
+	{
+		this.rating = rating;
 	}
 }

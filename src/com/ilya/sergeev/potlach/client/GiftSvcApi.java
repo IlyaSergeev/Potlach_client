@@ -19,6 +19,7 @@ public interface GiftSvcApi
 	public static final String GIFT_PATH = "/gifts";
 	
 	public static final String SINGLE_GIFT_PATH = GIFT_PATH + "/{id}";
+	public static final String TOUCH_GIFT_PATH = SINGLE_GIFT_PATH + "/touch";
 	public static final String ALL_GIFT_PATH = GIFT_PATH + "/all";
 	public static final String MY_GIFT_PATH = GIFT_PATH + "/my";
 	public static final String SEARCH_GIFT_PATH = GIFT_PATH + "/search";
@@ -32,25 +33,28 @@ public interface GiftSvcApi
 	public static final String USER_PARAM = "user";
 	
 	@GET(ALL_GIFT_PATH)
-	public Collection<Gift> getAllGifts();
+	public Collection<GiftInfo> getAllGifts();
 	
 	@GET(MY_GIFT_PATH)
-	public Collection<Gift> getMyGifts();
+	public Collection<GiftInfo> getMyGifts();
 	
 	@GET(GIFT_PATH)
-	public Collection<Gift> getGifts(@Query(USER_PARAM) String userName);
+	public Collection<GiftInfo> getGifts(@Query(USER_PARAM) String userName);
 	
 	@GET(SINGLE_GIFT_PATH)
-	public Gift getGift(@Path(ID_PARAM) long id);
+	public GiftInfo getGift(@Path(ID_PARAM) long id);
 	
 	@GET(SEARCH_GIFT_PATH)
-	public Collection<Gift> searchGift(@Query(TAG_PARAM) String keyWord);
+	public Collection<GiftInfo> searchGift(@Query(TAG_PARAM) String keyWord);
 	
 	@POST(CREATE_GIFT_PATH)
 	public Gift createGift(@Body Gift gift);
 	
 	@POST(SAVE_GIFT_PATH)
 	public Gift saveGift(@Body Gift gift);
+	
+	@POST(TOUCH_GIFT_PATH)
+	public GiftInfo touchGift(@Path(ID_PARAM) long id);
 	
 	@Multipart
 	@POST(GIFT_DATA_PATH)
