@@ -6,16 +6,18 @@ public class GiftInfo
 {
 	private Gift gift;
 	private Vote vote;
+	private boolean wasTouched;
 	
 	public GiftInfo()
 	{
-
+		
 	}
 	
-	public GiftInfo(Gift gift, Vote vote)
+	public GiftInfo(Gift gift, Vote vote, boolean wasTouched)
 	{
 		this.gift = gift;
 		this.vote = vote;
+		this.wasTouched = wasTouched;
 	}
 	
 	public Gift getGift()
@@ -36,6 +38,16 @@ public class GiftInfo
 	public void setVote(Vote vote)
 	{
 		this.vote = vote;
+	}
+	
+	public boolean isWasTouched()
+	{
+		return wasTouched;
+	}
+	
+	public void setWasTouched(boolean wasTouched)
+	{
+		this.wasTouched = wasTouched;
 	}
 	
 	@Override

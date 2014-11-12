@@ -10,7 +10,6 @@ public class Gift
 	
 	private String title;
 	private String message = null;
-	private int rating = 0;
 	private String contentType = "image/jpg";
 	
 	private long date = System.currentTimeMillis();
@@ -59,7 +58,7 @@ public class Gift
 	@Override
 	public int hashCode()
 	{
-		return Objects.hashCode(getOwner(), getTitle(), getMessage(), getRating());
+		return Objects.hashCode(getOwner(), getTitle(), getMessage());
 	}
 	
 	@Override
@@ -68,8 +67,7 @@ public class Gift
 		return (obj instanceof Gift)
 				&& Objects.equal(getOwner(), ((Gift) obj).getOwner())
 				&& Objects.equal(getTitle(), ((Gift) obj).getTitle())
-				&& Objects.equal(getMessage(), ((Gift) obj).getMessage())
-				&& getRating() == ((Gift) obj).getRating();
+				&& Objects.equal(getMessage(), ((Gift) obj).getMessage());
 	}
 	
 	public long getDate()
@@ -91,24 +89,14 @@ public class Gift
 	{
 		this.owner = owner;
 	}
-
+	
 	public String getContentType()
 	{
 		return contentType;
 	}
-
+	
 	public void setContentType(String contentType)
 	{
 		this.contentType = contentType;
-	}
-
-	public int getRating()
-	{
-		return rating;
-	}
-
-	public void setRating(int rating)
-	{
-		this.rating = rating;
 	}
 }

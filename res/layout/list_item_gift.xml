@@ -3,32 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin" >
 
-    <TextView
-        android:id="@+id/rating_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginTop="16dp"
-        android:drawableLeft="@drawable/see"
-        android:drawablePadding="4dp"
-        android:gravity="center"
-        android:text="84"
-        android:textAppearance="@android:style/TextAppearance.Small"
-        tools:ignore="HardcodedText" />
-
-    <ImageView
-        android:id="@+id/image_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/Gift_image"
-        android:onClick="changeImageAction"
-        android:scaleType="centerInside"
-        android:src="@drawable/image_mock" />
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/Gift_image"
+            android:onClick="changeImageAction"
+            android:scaleType="centerInside"
+            android:src="@drawable/image_mock" />
+
+        <ImageView
+            android:id="@+id/new_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/icon_new" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/title_text_view"

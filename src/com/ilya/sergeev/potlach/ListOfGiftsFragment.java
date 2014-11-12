@@ -13,10 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.google.common.collect.Lists;
+import com.ilya.sergeev.potlach.client.Gift;
 import com.ilya.sergeev.potlach.client.GiftInfo;
 import com.ilya.sergeev.potlach.client.ServerSvc;
 import com.ilya.sergeev.potlach.client.Vote;
@@ -39,7 +41,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 			Vote vote = giftInfo.getVote();
 			if (vote == null)
 			{
-				vote = new Vote(giftId, 1);
+				vote = new Vote(null, giftId);
 				giftInfo.setVote(vote);
 			}
 			vote.setVote(1);
@@ -59,7 +61,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 			Vote vote = giftInfo.getVote();
 			if (vote == null)
 			{
-				vote = new Vote(giftId, -1);
+				vote = new Vote(null, giftId);
 				giftInfo.setVote(vote);
 			}
 			vote.setVote(-1);
@@ -82,6 +84,21 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 		View view = inflater.inflate(R.layout.fragment_gift_wall, container, false);
 		
 		mListView = (ListView) view.findViewById(R.id.list_view);
+		mListView.setOnItemClickListener(new ListView.OnItemClickListener()
+		{
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			{
+				Object obj = parent.getAdapter().getItem((int) id);
+				if (obj instanceof GiftInfo)
+				{
+					GiftInfo giftInfo = (GiftInfo) obj;
+					Gift gift = giftInfo.getGift(); 
+					//TODO show single gift 
+				}
+			}
+		});
 		mListView.setOnScrollListener(new ListView.OnScrollListener()
 		{
 			

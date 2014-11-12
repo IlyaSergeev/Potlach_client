@@ -19,7 +19,6 @@ public interface GiftSvcApi
 	public static final String GIFT_PATH = "/gifts";
 	
 	public static final String SINGLE_GIFT_PATH = GIFT_PATH + "/{id}";
-	public static final String TOUCH_GIFT_PATH = SINGLE_GIFT_PATH + "/touch";
 	public static final String ALL_GIFT_PATH = GIFT_PATH + "/all";
 	public static final String MY_GIFT_PATH = GIFT_PATH + "/my";
 	public static final String SEARCH_GIFT_PATH = GIFT_PATH + "/search";
@@ -29,7 +28,7 @@ public interface GiftSvcApi
 	
 	public static final String ID_PARAM = "id";
 	public static final String TAG_PARAM = "tag";
-	public static final String DATA_PARAMETER = "data";
+	public static final String DATA_PARAM = "data";
 	public static final String USER_PARAM = "user";
 	
 	@GET(ALL_GIFT_PATH)
@@ -53,12 +52,9 @@ public interface GiftSvcApi
 	@POST(SAVE_GIFT_PATH)
 	public Gift saveGift(@Body Gift gift);
 	
-	@POST(TOUCH_GIFT_PATH)
-	public GiftInfo touchGift(@Path(ID_PARAM) long id);
-	
 	@Multipart
 	@POST(GIFT_DATA_PATH)
-	public ImageStatus setImageData(@Path(ID_PARAM) long id, @Part(DATA_PARAMETER) TypedFile imageFile);
+	public ImageStatus setImageData(@Path(ID_PARAM) long id, @Part(DATA_PARAM) TypedFile imageFile);
 	
 	@Streaming
 	@GET(GIFT_DATA_PATH)

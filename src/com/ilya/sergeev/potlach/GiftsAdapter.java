@@ -120,8 +120,8 @@ public class GiftsAdapter extends BaseAdapter
 			}
 		});
 		
-		TextView seeTextView = (TextView) convertView.findViewById(R.id.rating_text_view);
-		seeTextView.setText(String.valueOf(gift.getRating()));
+		View newView = convertView.findViewById(R.id.new_view);
+		newView.setVisibility(giftInfo.isWasTouched()?View.GONE:View.VISIBLE);
 		
 		ImageView imageView = (ImageView) convertView.findViewById(R.id.image_view);
 		mImageLoader.DisplayImage(gift, R.drawable.image_mock, imageView);

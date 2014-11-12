@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.ilya.sergeev.potlach.ApplicationConsts;
 import com.ilya.sergeev.potlach.client.Gift;
-import com.ilya.sergeev.potlach.client.GiftSvcApi;
+import com.ilya.sergeev.potlach.client.TouchSvcApi;
 import com.ilya.sergeev.potlach.client.UserInfo;
 
 class TouchGenerator
@@ -24,12 +24,12 @@ class TouchGenerator
 		try
 		{
 			UserInfo user = mUserGenerator.anyUser();
-			GiftSvcApi giftApi = UserSessionsFactory
+			TouchSvcApi touchApi = UserSessionsFactory
 					.getRestAdapterForUser(ApplicationConsts.SERVER_URL, user.getName(), UsersGenerator.DEFAULT_PASSWORD)
-					.create(GiftSvcApi.class);
+					.create(TouchSvcApi.class);
 			
 			Gift gift = mGiftGenerator.anyGift(context);
-			return giftApi.touchGift(gift.getId()) != null;
+			return touchApi.touch(gift.getId()) != null;
 		}
 		catch (RetrofitError ex)
 		{
