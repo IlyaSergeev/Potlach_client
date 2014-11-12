@@ -28,7 +28,7 @@ class UsersGenerator
 	
 	private static final String[] sUserNames = new String[] { "Kate", "Anne", "Vasya", "John", "Bard", "Homer", "Liza", "Ilya" };
 	
-	public static final String DEFAULT_PASSWORD = "111";
+	public static final String DEFAULT_PASSWORD = "111111";
 	
 	private int mIndex = 0;
 

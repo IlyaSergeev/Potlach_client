@@ -32,6 +32,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 	private View mNoGiftsView;
 	private AsyncTask<Void, Void, List<GiftInfo>> mReloadTask = null;
 	private GiftImageLoader mImageLoader;
+	private GiftsAdapter mAdapter;
 	private GiftsAdapter.VoteListener mVoteListener = new GiftsAdapter.VoteListener()
 	{
 		
@@ -105,6 +106,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 						activity.startService(touchIntent);
 					}
 					
+					mAdapter.updateView(view, giftInfo);
 					// TODO show single gift
 				}
 			}
@@ -188,7 +190,8 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 				
 				if (mListView != null)
 				{
-					mListView.setAdapter(new GiftsAdapter(gifts, mImageLoader, mVoteListener));
+					mAdapter = new GiftsAdapter(gifts, mImageLoader, mVoteListener);
+					mListView.setAdapter(mAdapter);
 					if (gifts == null || gifts.size() == 0)
 					{
 						mNoGiftsView.setVisibility(View.VISIBLE);

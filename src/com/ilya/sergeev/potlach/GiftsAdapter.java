@@ -69,8 +69,13 @@ public class GiftsAdapter extends BaseAdapter
 			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_gift, parent, false);
 		}
 		
-		final GiftInfo giftInfo = mGifts.get(position);
+		updateView(convertView, mGifts.get(position));
 		
+		return convertView;
+	}
+	
+	public void updateView(View convertView, final GiftInfo giftInfo)
+	{
 		Gift gift = giftInfo.getGift();
 		Vote vote = giftInfo.getVote();
 		
@@ -97,7 +102,7 @@ public class GiftsAdapter extends BaseAdapter
 			{
 				likeButton.setEnabled(false);
 				dislikeButton.setEnabled(true);
-
+				
 				if (mListener != null)
 				{
 					mListener.pressLike(giftInfo);
@@ -121,7 +126,7 @@ public class GiftsAdapter extends BaseAdapter
 		});
 		
 		View newView = convertView.findViewById(R.id.new_view);
-		newView.setVisibility(giftInfo.isWasTouched()?View.GONE:View.VISIBLE);
+		newView.setVisibility(giftInfo.isWasTouched() ? View.GONE : View.VISIBLE);
 		
 		ImageView imageView = (ImageView) convertView.findViewById(R.id.image_view);
 		mImageLoader.DisplayImage(gift, R.drawable.image_mock, imageView);
@@ -136,7 +141,5 @@ public class GiftsAdapter extends BaseAdapter
 		Date createDate = new Date(gift.getDate());
 		String authorText = String.format("%s\n%s\n%s", gift.getOwner(), SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT).format(createDate), SimpleDateFormat.getDateInstance().format(createDate));
 		authorTextView.setText(authorText);
-		
-		return convertView;
 	}
 }
