@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ilya.sergeev.potlach.client.Gift;
 import com.ilya.sergeev.potlach.client.GiftInfo;
+import com.ilya.sergeev.potlach.client.Vote;
 import com.ilya.sergeev.potlach.image_loader.GiftImageLoader;
 
 public class GiftsAdapter extends BaseAdapter
@@ -58,9 +60,30 @@ public class GiftsAdapter extends BaseAdapter
 			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_gift, parent, false);
 		}
 		
-		//TODO refresh vote
 		GiftInfo giftInfo = mGifts.get(position);
+		
+		Vote vote = giftInfo.getVote();
+		Button likeButton = (Button) convertView.findViewById(R.id.like_button);
+		Button dislikeButton = (Button) convertView.findViewById(R.id.dislike_button);
+		likeButton.setEnabled(true);
+		dislikeButton.setEnabled(true);
+		if (vote != null)
+		{
+			if (vote.getVote() > 0)
+			{
+				likeButton.setEnabled(false);
+			}
+			else if (vote.getVote() < 0)
+			{
+				dislikeButton.setEnabled(false);
+			}
+		}
+		//TODO set action on like or dislike
+		
 		Gift gift = giftInfo.getGift();
+		
+		TextView seeTextView =  (TextView) convertView.findViewById(R.id.rating_text_view);
+		seeTextView.setText(String.valueOf(gift.getRating()));
 		
 		ImageView imageView = (ImageView) convertView.findViewById(R.id.image_view);		
 		mImageLoader.DisplayImage(gift, R.drawable.image_mock, imageView);
