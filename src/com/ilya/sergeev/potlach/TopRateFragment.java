@@ -3,12 +3,14 @@ package com.ilya.sergeev.potlach;
 import java.util.List;
 
 import retrofit.RetrofitError;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -31,6 +33,18 @@ public class TopRateFragment extends MainContentFragment
 		
 		mListView = (ListView) view.findViewById(R.id.list_view);
 		mListView.addHeaderView(inflater.inflate(R.layout.header_rating_list, mListView, false));
+		mListView.setOnItemClickListener(new ListView.OnItemClickListener()
+		{
+			
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			{
+				UserInfo user = (UserInfo) parent.getAdapter().getItem(position);
+				Intent showUserGiftsIntent = new Intent(Broadcasts.SHOW_USER_GIFTS_BROADCAST);
+				showUserGiftsIntent.putExtra(Broadcasts.PARAM_USER_NAME, user.getName());
+				getActivity().sendBroadcast(showUserGiftsIntent);
+			}
+		});
 		mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 		
 		return view;
@@ -80,8 +94,8 @@ public class TopRateFragment extends MainContentFragment
 				}
 				catch (RetrofitError ex)
 				{
-					//TODO
-//					getActivity().sendBroadcast(new Intent(Broadcasts.SIGN_OUT_BROADCAST));
+					// TODO
+					// getActivity().sendBroadcast(new Intent(Broadcasts.SIGN_OUT_BROADCAST));
 					users = null;
 				}
 				return users;

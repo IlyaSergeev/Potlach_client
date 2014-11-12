@@ -105,7 +105,7 @@ public class NavigationDrawerFragment extends Fragment
 				R.id.text1,
 				new String[] {
 						userName,
-						getString(R.string.new_gifts),
+						getString(R.string.all_gifts),
 						getString(R.string.top_rate),
 						getString(R.string.search_gifts),
 						getString(R.string.settings),

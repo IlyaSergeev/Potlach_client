@@ -41,6 +41,25 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 		}
 	};
 	
+	private BroadcastReceiver mShowUserGiftsReceiver = new BroadcastReceiver()
+	{
+		
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			String userName = intent.getStringExtra(Broadcasts.PARAM_USER_NAME);
+			UserGiftsFragment fragment = new UserGiftsFragment(userName);
+			
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.container, fragment)
+					.commit();
+			
+			mTitle = userName;
+			restoreActionBar();
+		}
+		
+	};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -65,6 +84,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 		super.onResume();
 		
 		registerReceiver(mSignOutReceiver, new IntentFilter(Broadcasts.SIGN_OUT_BROADCAST));
+		registerReceiver(mShowUserGiftsReceiver, new IntentFilter(Broadcasts.SHOW_USER_GIFTS_BROADCAST));
 	}
 	
 	@Override
@@ -73,6 +93,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 		super.onPause();
 		
 		unregisterReceiver(mSignOutReceiver);
+		unregisterReceiver(mShowUserGiftsReceiver);
 	}
 	
 	@Override
@@ -149,7 +170,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 				break;
 			
 			case POTLACH_WALL:
-				mTitle = getString(R.string.new_gifts);
+				mTitle = getString(R.string.all_gifts);
 				break;
 			
 			case POTLACH_TOP_RATE:
