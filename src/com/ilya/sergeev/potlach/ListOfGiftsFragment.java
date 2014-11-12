@@ -96,6 +96,10 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 				if (obj instanceof GiftInfo)
 				{
 					GiftInfo giftInfo = (GiftInfo) obj;
+					if (giftInfo.isWasTouched())
+					{
+						return;
+					}
 					giftInfo.setWasTouched(true);
 					Gift gift = giftInfo.getGift();
 					
