@@ -75,6 +75,8 @@ public class ContentGenerateActivity extends Activity
 				mContentGenerator.createSomeUsers(random.nextInt(5) + 2);
 				mContentGenerator.createSomeGifts(random.nextInt(15) + 3, ContentGenerateActivity.this);
 				mContentGenerator.createSomeVotes(random.nextInt(20) + 4, ContentGenerateActivity.this);
+				mContentGenerator.createSomeTouches(random.nextInt(100), ContentGenerateActivity.this);
+				
 				return null;
 			}
 			

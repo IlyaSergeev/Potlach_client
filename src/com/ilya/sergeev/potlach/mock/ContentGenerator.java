@@ -10,12 +10,14 @@ class ContentGenerator
 	private final UsersGenerator mUserGenerator;
 	private final GiftGenerator mGiftsGenerator;
 	private final VoteGenerator mVoteGenerator;
+	private final TouchGenerator mTouchGenerator;
 	
 	public ContentGenerator()
 	{
 		mUserGenerator = UsersGenerator.getGenerator();
 		mGiftsGenerator = GiftGenerator.getGenerator(mUserGenerator);
 		mVoteGenerator = new VoteGenerator(mUserGenerator, mGiftsGenerator);
+		mTouchGenerator = new TouchGenerator(mGiftsGenerator, mUserGenerator);
 	}
 	
 	public void createSomeUsers(int usersCount)
@@ -48,6 +50,15 @@ class ContentGenerator
 		{
 			mVoteGenerator.createVote(context);
 			voteLeadsCount--;
+		}
+	}
+	
+	public void createSomeTouches(int touchesCount, Context context)
+	{
+		while (touchesCount > 0)
+		{
+			mTouchGenerator.createTouche(context);
+			touchesCount--;
 		}
 	}
 }
