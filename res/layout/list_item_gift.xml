@@ -11,14 +11,14 @@
         android:id="@+id/rating_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="left"
         android:layout_marginTop="16dp"
-        android:text="84"
-        android:layout_gravity="right"
-        android:textAppearance="@android:style/TextAppearance.Small"
-        tools:ignore="HardcodedText" 
-        android:gravity="center"
+        android:drawableLeft="@drawable/see"
         android:drawablePadding="4dp"
-        android:drawableLeft="@drawable/see"/>
+        android:gravity="center"
+        android:text="84"
+        android:textAppearance="@android:style/TextAppearance.Small"
+        tools:ignore="HardcodedText" />
 
     <ImageView
         android:id="@+id/image_view"
@@ -35,6 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:gravity="center"
         android:singleLine="true"
         android:text="Title"
         android:textStyle="bold"

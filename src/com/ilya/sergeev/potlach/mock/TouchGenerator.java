@@ -29,8 +29,7 @@ class TouchGenerator
 					.create(GiftSvcApi.class);
 			
 			Gift gift = mGiftGenerator.anyGift(context);
-			giftApi.touchGift(gift.getId());
-			return true;
+			return giftApi.touchGift(gift.getId()) != null;
 		}
 		catch (RetrofitError ex)
 		{

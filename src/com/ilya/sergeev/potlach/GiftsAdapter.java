@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -63,8 +63,8 @@ public class GiftsAdapter extends BaseAdapter
 		GiftInfo giftInfo = mGifts.get(position);
 		
 		Vote vote = giftInfo.getVote();
-		Button likeButton = (Button) convertView.findViewById(R.id.like_button);
-		Button dislikeButton = (Button) convertView.findViewById(R.id.dislike_button);
+		ImageButton likeButton = (ImageButton) convertView.findViewById(R.id.like_button);
+		ImageButton dislikeButton = (ImageButton) convertView.findViewById(R.id.dislike_button);
 		likeButton.setEnabled(true);
 		dislikeButton.setEnabled(true);
 		if (vote != null)
