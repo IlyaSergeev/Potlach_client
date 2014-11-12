@@ -2,7 +2,6 @@ package com.ilya.sergeev.potlach;
 
 import java.util.List;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,19 +45,18 @@ public class UsersAdapter extends BaseAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		Context context = parent.getContext();
 		if (convertView == null)
 		{
-			convertView = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_activated_2, parent, false);
+			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_rating, parent, false);
 		}
 		
 		UserInfo user = mUsers.get(position);
 		
-		TextView text1 = (TextView) convertView.findViewById(android.R.id.text1);
+		TextView text1 = (TextView) convertView.findViewById(R.id.author_text_view);
 		text1.setText(user.getName());
 		
-		TextView text2 = (TextView) convertView.findViewById(android.R.id.text2);
-		text2.setText(context.getString(R.string.rating_) + user.getRating());
+		TextView text2 = (TextView) convertView.findViewById(R.id.rating_text_view);
+		text2.setText(String.valueOf(user.getRating()));
 		
 		return convertView;
 	}

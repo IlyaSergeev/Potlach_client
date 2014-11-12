@@ -31,11 +31,12 @@
     <string name="title_activity_content_generate">ContentGenerateActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="generate_some_content">Generate some content</string>
-    <string name="rating_">"Rating = "</string>
     <string name="title">Title</string>
     <string name="loading_">Loading&#8230;</string>
     <string name="there_are_no_gifts">There are no gifts</string>
     <string name="clear_cache">Clear cache</string>
     <string name="todo">TODO</string>
+    <string name="author">Author</string>
+    <string name="rating">Rating</string>
 
 </resources>

@@ -30,6 +30,7 @@ public class TopRateFragment extends MainContentFragment
 		View view = inflater.inflate(R.layout.fragment_top_rate, container, false);
 		
 		mListView = (ListView) view.findViewById(R.id.list_view);
+		mListView.addHeaderView(inflater.inflate(R.layout.header_rating_list, mListView, false));
 		mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 		
 		return view;
