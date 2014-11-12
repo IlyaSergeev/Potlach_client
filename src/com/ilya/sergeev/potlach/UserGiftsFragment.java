@@ -7,18 +7,12 @@ import com.ilya.sergeev.potlach.client.GiftSvcApi;
 import com.ilya.sergeev.potlach.client.ServerSvc;
 
 public class UserGiftsFragment extends ListOfGiftsFragment
-{
-	private final String mUserName;
-	
-	public UserGiftsFragment(String userName)
-	{
-		mUserName = userName;
-	}
-	
+{	
 	@Override
 	protected Collection<GiftInfo> getGifts()
 	{
-		return ServerSvc.getServerApi().getApi(GiftSvcApi.class).getGifts(mUserName);
+		String userName = getArguments().getString(Broadcasts.PARAM_USER_NAME);
+		return ServerSvc.getServerApi().getApi(GiftSvcApi.class).getGifts(userName);
 	}
 	
 }

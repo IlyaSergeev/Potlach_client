@@ -48,7 +48,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 		public void onReceive(Context context, Intent intent)
 		{
 			String userName = intent.getStringExtra(Broadcasts.PARAM_USER_NAME);
-			UserGiftsFragment fragment = new UserGiftsFragment(userName);
+			UserGiftsFragment fragment = new UserGiftsFragment();
+			Bundle args = new Bundle();
+			args.putString(Broadcasts.PARAM_USER_NAME, userName);
+			fragment.setArguments(args);
 			
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.container, fragment)
