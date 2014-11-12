@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.List;
 
 import retrofit.RetrofitError;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +19,7 @@ import android.widget.ProgressBar;
 import com.google.common.collect.Lists;
 import com.ilya.sergeev.potlach.client.GiftInfo;
 import com.ilya.sergeev.potlach.client.ServerSvc;
+import com.ilya.sergeev.potlach.client.Vote;
 import com.ilya.sergeev.potlach.image_loader.GiftImageLoader;
 
 public abstract class ListOfGiftsFragment extends MainContentFragment
@@ -26,6 +29,49 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 	private View mNoGiftsView;
 	private AsyncTask<Void, Void, List<GiftInfo>> mReloadTask = null;
 	private GiftImageLoader mImageLoader;
+	private GiftsAdapter.VoteListener mVoteListener = new GiftsAdapter.VoteListener()
+	{
+		
+		@Override
+		public void pressLike(GiftInfo giftInfo)
+		{
+			long giftId = giftInfo.getGift().getId();
+			Vote vote = giftInfo.getVote();
+			if (vote == null)
+			{
+				vote = new Vote(giftId, 1);
+				giftInfo.setVote(vote);
+			}
+			vote.setVote(1);
+			
+			Activity activity = getActivity();
+			if (activity != null)
+			{
+				Intent voteUpIntent = TasksMaker.getVoteUp(activity, giftId);
+				activity.startService(voteUpIntent);
+			}
+		}
+		
+		@Override
+		public void pressDislike(GiftInfo giftInfo)
+		{
+			long giftId = giftInfo.getGift().getId();
+			Vote vote = giftInfo.getVote();
+			if (vote == null)
+			{
+				vote = new Vote(giftId, -1);
+				giftInfo.setVote(vote);
+			}
+			vote.setVote(-1);
+			
+			Activity activity = getActivity();
+			if (activity != null)
+			{
+				Intent voteDownIntent = TasksMaker.getVoteDown(activity, giftId);
+				activity.startService(voteDownIntent);
+			}
+		}
+	};
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -115,7 +161,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 				
 				if (mListView != null)
 				{
-					mListView.setAdapter(new GiftsAdapter(gifts, mImageLoader));
+					mListView.setAdapter(new GiftsAdapter(gifts, mImageLoader, mVoteListener));
 					if (gifts == null || gifts.size() == 0)
 					{
 						mNoGiftsView.setVisibility(View.VISIBLE);

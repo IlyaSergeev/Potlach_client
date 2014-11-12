@@ -19,15 +19,24 @@ import com.ilya.sergeev.potlach.image_loader.GiftImageLoader;
 
 public class GiftsAdapter extends BaseAdapter
 {
+	public interface VoteListener
+	{
+		public void pressLike(GiftInfo giftInfo);
+		
+		public void pressDislike(GiftInfo giftInfo);
+	}
+	
 	private final List<GiftInfo> mGifts;
 	private final GiftImageLoader mImageLoader;
+	private final VoteListener mListener;
 	
-	public GiftsAdapter(List<GiftInfo> gifts, GiftImageLoader imageLoader)
+	public GiftsAdapter(List<GiftInfo> gifts, GiftImageLoader imageLoader, VoteListener listener)
 	{
 		super();
 		
 		mGifts = gifts;
 		mImageLoader = imageLoader;
+		mListener = listener;
 	}
 	
 	@Override
@@ -60,11 +69,13 @@ public class GiftsAdapter extends BaseAdapter
 			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_gift, parent, false);
 		}
 		
-		GiftInfo giftInfo = mGifts.get(position);
+		final GiftInfo giftInfo = mGifts.get(position);
 		
+		Gift gift = giftInfo.getGift();
 		Vote vote = giftInfo.getVote();
-		ImageButton likeButton = (ImageButton) convertView.findViewById(R.id.like_button);
-		ImageButton dislikeButton = (ImageButton) convertView.findViewById(R.id.dislike_button);
+		
+		final ImageButton likeButton = (ImageButton) convertView.findViewById(R.id.like_button);
+		final ImageButton dislikeButton = (ImageButton) convertView.findViewById(R.id.dislike_button);
 		likeButton.setEnabled(true);
 		dislikeButton.setEnabled(true);
 		if (vote != null)
@@ -78,14 +89,41 @@ public class GiftsAdapter extends BaseAdapter
 				dislikeButton.setEnabled(false);
 			}
 		}
-		//TODO set action on like or dislike
+		likeButton.setOnClickListener(new View.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				likeButton.setEnabled(false);
+				dislikeButton.setEnabled(true);
+
+				if (mListener != null)
+				{
+					mListener.pressLike(giftInfo);
+				}
+			}
+		});
+		dislikeButton.setOnClickListener(new View.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				likeButton.setEnabled(true);
+				dislikeButton.setEnabled(false);
+				
+				if (mListener != null)
+				{
+					mListener.pressDislike(giftInfo);
+				}
+			}
+		});
 		
-		Gift gift = giftInfo.getGift();
-		
-		TextView seeTextView =  (TextView) convertView.findViewById(R.id.rating_text_view);
+		TextView seeTextView = (TextView) convertView.findViewById(R.id.rating_text_view);
 		seeTextView.setText(String.valueOf(gift.getRating()));
 		
-		ImageView imageView = (ImageView) convertView.findViewById(R.id.image_view);		
+		ImageView imageView = (ImageView) convertView.findViewById(R.id.image_view);
 		mImageLoader.DisplayImage(gift, R.drawable.image_mock, imageView);
 		
 		TextView titleTextView = (TextView) convertView.findViewById(R.id.title_text_view);

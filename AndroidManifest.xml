@@ -52,8 +52,11 @@
         </activity>
         <activity
             android:name="com.ilya.sergeev.potlach.mock.ContentGenerateActivity"
-            android:label="@string/title_activity_content_generate" >
-        </activity>
+            android:label="@string/title_activity_content_generate" />
+
+        <service
+            android:name="com.ilya.sergeev.potlach.TasksMaker"
+            android:exported="false" />
     </application>
 
 </manifest>

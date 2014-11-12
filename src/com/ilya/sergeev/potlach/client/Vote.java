@@ -26,10 +26,14 @@ public class Vote
 	{
 	}
 	
+	public Vote(long giftId, int voteValue)
+	{
+		this(null, giftId, voteValue);
+	}
+	
 	public Vote(String userName, long giftId)
 	{
-		this.userName = userName;
-		this.giftId = giftId;
+		this(userName, giftId, 0);
 	}
 	
 	private Vote(String userName, long giftId, int voteValue)
