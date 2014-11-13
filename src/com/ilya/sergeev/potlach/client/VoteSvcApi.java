@@ -13,7 +13,7 @@ public interface VoteSvcApi
 	public static final String SINGLE_VOTE_PATH = VOTE_PATH + "/{id}"; 
 	
 	public static final String ID_PARAM = "id";
-	public static final String GIFT_ID_PARAM = "id";
+	public static final String GIFT_ID_PARAM = "gift";
 	public static final String VOTE_PARAM = "vote";
 	
 	@GET(VOTE_PATH)
@@ -22,6 +22,6 @@ public interface VoteSvcApi
 	@GET(SINGLE_VOTE_PATH)
 	public Vote getVote(@Path(ID_PARAM) long ig);
 	
-	@POST(SINGLE_VOTE_PATH)
-	public Vote sendVote(@Path(ID_PARAM)long giftId, @Query(VOTE_PARAM) int voteValue);
+	@POST(VOTE_PATH)
+	public Vote sendVote(@Query(GIFT_ID_PARAM)long giftId, @Query(VOTE_PARAM) int voteValue);
 }
