@@ -6,6 +6,11 @@ import android.content.Context;
 
 class ImageCache
 {
+	public static void clearCache(Context context)
+	{
+		new ImageCache(context).clear();
+	}
+	
 	private File mCacheDir;
 	
 	public ImageCache(Context context)

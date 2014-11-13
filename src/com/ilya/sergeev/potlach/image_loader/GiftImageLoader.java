@@ -24,6 +24,11 @@ import com.ilya.sergeev.potlach.client.GiftSvcApi;
 
 public class GiftImageLoader
 {
+	public static void clearCache(Context context)
+	{
+		ImageCache.clearCache(context);
+	}
+	
 	private volatile boolean mCanUpdate = true;
 	
 	private final MemoryCache memoryCache = new MemoryCache();

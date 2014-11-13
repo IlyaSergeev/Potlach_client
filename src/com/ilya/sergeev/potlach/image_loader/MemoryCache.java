@@ -7,7 +7,7 @@ import java.util.Map;
 
 import android.graphics.Bitmap;
 
-public class MemoryCache
+class MemoryCache
 {
 	private Map<String, SoftReference<Bitmap>> cache = Collections.synchronizedMap(new HashMap<String, SoftReference<Bitmap>>());
 	

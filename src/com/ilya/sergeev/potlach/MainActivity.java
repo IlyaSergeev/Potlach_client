@@ -18,8 +18,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.ilya.sergeev.potlach.client.ServerSvc;
+import com.ilya.sergeev.potlach.image_loader.GiftImageLoader;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks
 {
@@ -339,5 +341,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 			}
 			super.onActivityResult(requestCode, resultCode, data);
 		}
+	}
+	
+	public void clearCache(View sender)
+	{
+		GiftImageLoader.clearCache(this);
 	}
 }
