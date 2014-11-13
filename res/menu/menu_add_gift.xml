@@ -6,9 +6,15 @@
 
  
     <item
-        android:id="@+id/action_add_potlach"
+        android:id="@+id/action_add_gift"
         android:title="@string/create_gift_action"
-        android:icon="@android:drawable/ic_menu_camera"
+        android:icon="@drawable/ic_action_photo"
+        sup_v7:showAsAction="ifRoom"/>
+    
+    <item 
+        android:id="@+id/refresh_action"
+        android:title="@string/refresh"
+        android:icon="@drawable/ic_action_refresh"
         sup_v7:showAsAction="ifRoom"/>
 
 </menu>

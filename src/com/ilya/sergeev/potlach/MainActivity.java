@@ -257,9 +257,14 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		int id = item.getItemId();
-		if (id == R.id.action_add_potlach)
+		if (id == R.id.action_add_gift)
 		{
 			showCreatePotlachDialog();
+			return true;
+		}
+		else if (id == R.id.refresh_action)
+		{
+			sendBroadcast(new Intent(Broadcasts.REFRESH_BROADCAST));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

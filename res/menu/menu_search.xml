@@ -1,14 +1,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.ilya.sergeev.potlach.MainActivity" 
-    xmlns:sup_v7="http://schemas.android.com/apk/res-auto">
+    xmlns:sup_v7="http://schemas.android.com/apk/res-auto"
+    tools:context="com.ilya.sergeev.potlach.MainActivity" >
 
     <item
         android:id="@+id/action_search"
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/search_title"
-        sup_v7:showAsAction="always|collapseActionView"
-        sup_v7:actionViewClass="android.support.v7.widget.SearchView"/>
+        sup_v7:actionViewClass="android.support.v7.widget.SearchView"
+        sup_v7:showAsAction="always|collapseActionView"/>
+    <item
+        android:id="@+id/refresh_action"
+        android:icon="@drawable/ic_action_refresh"
+        android:title="@string/refresh"
+        sup_v7:showAsAction="ifRoom"/>
 
 </menu>

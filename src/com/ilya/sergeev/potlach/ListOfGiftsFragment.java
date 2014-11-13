@@ -5,7 +5,10 @@ import java.util.List;
 
 import retrofit.RetrofitError;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,6 +36,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 	private AsyncTask<Void, Void, List<GiftInfo>> mReloadTask = null;
 	private GiftImageLoader mImageLoader;
 	private GiftsAdapter mAdapter;
+	
 	private GiftsAdapter.VoteListener mVoteListener = new GiftsAdapter.VoteListener()
 	{
 		
@@ -76,6 +80,14 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 			}
 		}
 	};
+	
+	private BroadcastReceiver mRefreshReceiver = new BroadcastReceiver(){
+
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			reloadGifts();
+		}};
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -140,6 +152,8 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 	{
 		super.onResume();
 		
+		getActivity().registerReceiver(mRefreshReceiver, new IntentFilter(Broadcasts.REFRESH_BROADCAST));
+		
 		if (mReloadTask == null)
 		{
 			reloadGifts();
@@ -149,6 +163,14 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 		{
 			showProgress(true);
 		}
+	}
+	
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		
+		getActivity().unregisterReceiver(mRefreshReceiver);
 	}
 	
 	protected void reloadGifts()

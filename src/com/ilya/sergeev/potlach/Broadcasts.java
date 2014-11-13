@@ -7,6 +7,7 @@ public final class Broadcasts
 	}
 	
 	public static final String SIGN_OUT_BROADCAST = "com.ilya.sergeev.sign_out_broadcast";
+	public static final String REFRESH_BROADCAST = "com.ilya.sergeev.refresh";
 	public static final String SEARCH_GIFTS_BROADCAST = "com.ilya.sergeev.search_gift";
 	public static final String SHOW_USER_GIFTS_BROADCAST = "com.ilya.sergeev.show_user_gifts";
 	
