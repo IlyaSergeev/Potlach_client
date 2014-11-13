@@ -2,7 +2,7 @@ package com.ilya.sergeev.potlach.client;
 
 import retrofit.RetrofitError;
 
-import com.ilya.sergeev.potlach.ApplicationConsts;
+import com.ilya.sergeev.potlach.ApplicationSettings;
 
 public class ServerSvc
 {
@@ -33,7 +33,7 @@ public class ServerSvc
 	
 	public static synchronized ServerSvcApi signin(String userName, String password) throws RetrofitError
 	{
-		sServerApi = ServerSvcApi.createServerApi(ApplicationConsts.SERVER_URL, userName, password);
+		sServerApi = ServerSvcApi.createServerApi(ApplicationSettings.SERVER_URL, userName, password);
 		setUserName(userName);
 		
 		return sServerApi;
@@ -48,6 +48,6 @@ public class ServerSvc
 	
 	private static ServerSvcApi createNotUserApi()
 	{
-		return ServerSvcApi.createServerApi(ApplicationConsts.SERVER_URL, "not_user", "not_user");
+		return ServerSvcApi.createServerApi(ApplicationSettings.SERVER_URL, "not_user", "not_user");
 	}
 }

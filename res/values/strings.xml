@@ -39,5 +39,6 @@
     <string name="author">Author</string>
     <string name="touches">Touches</string>
     <string name="refresh">Refresh</string>
+    <string name="show_obscene_gifts">show obscene gifts</string>
 
 </resources>

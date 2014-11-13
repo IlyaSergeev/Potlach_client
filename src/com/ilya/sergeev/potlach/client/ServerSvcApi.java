@@ -4,7 +4,7 @@ import retrofit.RestAdapter;
 import retrofit.RestAdapter.LogLevel;
 import retrofit.client.ApacheClient;
 
-import com.ilya.sergeev.potlach.ApplicationConsts;
+import com.ilya.sergeev.potlach.ApplicationSettings;
 import com.ilya.sergeev.potlach.unsafe.EasyHttpClient;
 
 public class ServerSvcApi
@@ -15,7 +15,7 @@ public class ServerSvcApi
 				.setLoginEndpoint(server + UserInfoSvcApi.TOKEN_PATH)
 				.setUsername(user)
 				.setPassword(password)
-				.setClientId(ApplicationConsts.CLIENT_ID)
+				.setClientId(ApplicationSettings.CLIENT_ID)
 				.setClient(new ApacheClient(new EasyHttpClient()))
 				.setEndpoint(server).setLogLevel(LogLevel.FULL).build();
 		

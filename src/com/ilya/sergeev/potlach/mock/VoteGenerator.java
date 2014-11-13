@@ -9,7 +9,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.common.collect.Lists;
-import com.ilya.sergeev.potlach.ApplicationConsts;
+import com.ilya.sergeev.potlach.ApplicationSettings;
 import com.ilya.sergeev.potlach.client.Gift;
 import com.ilya.sergeev.potlach.client.UserInfo;
 import com.ilya.sergeev.potlach.client.Vote;
@@ -43,7 +43,7 @@ class VoteGenerator
 		}
 		
 		Vote vote = null;
-		VoteSvcApi voteApi = UserSessionsFactory.getRestAdapterForUser(ApplicationConsts.SERVER_URL, userInfo.getName(), UsersGenerator.DEFAULT_PASSWORD).create(VoteSvcApi.class);
+		VoteSvcApi voteApi = UserSessionsFactory.getRestAdapterForUser(ApplicationSettings.SERVER_URL, userInfo.getName(), UsersGenerator.DEFAULT_PASSWORD).create(VoteSvcApi.class);
 		try
 		{
 			 vote = voteApi.sendVote(gift.getId(), (sRandom.nextInt()%2 > 0)?1:-1);

@@ -3,7 +3,7 @@ package com.ilya.sergeev.potlach.mock;
 import retrofit.RetrofitError;
 import android.content.Context;
 
-import com.ilya.sergeev.potlach.ApplicationConsts;
+import com.ilya.sergeev.potlach.ApplicationSettings;
 import com.ilya.sergeev.potlach.client.Gift;
 import com.ilya.sergeev.potlach.client.TouchSvcApi;
 import com.ilya.sergeev.potlach.client.UserInfo;
@@ -25,7 +25,7 @@ class TouchGenerator
 		{
 			UserInfo user = mUserGenerator.anyUser();
 			TouchSvcApi touchApi = UserSessionsFactory
-					.getRestAdapterForUser(ApplicationConsts.SERVER_URL, user.getName(), UsersGenerator.DEFAULT_PASSWORD)
+					.getRestAdapterForUser(ApplicationSettings.SERVER_URL, user.getName(), UsersGenerator.DEFAULT_PASSWORD)
 					.create(TouchSvcApi.class);
 			
 			Gift gift = mGiftGenerator.anyGift(context);

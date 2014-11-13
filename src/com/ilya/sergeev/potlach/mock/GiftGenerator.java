@@ -15,7 +15,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.google.common.collect.Lists;
-import com.ilya.sergeev.potlach.ApplicationConsts;
+import com.ilya.sergeev.potlach.ApplicationSettings;
 import com.ilya.sergeev.potlach.client.Gift;
 import com.ilya.sergeev.potlach.client.GiftSvcApi;
 import com.ilya.sergeev.potlach.client.UserInfo;
@@ -48,7 +48,7 @@ class GiftGenerator
 	{
 		Gift gift = new Gift(anyTitle(), anyMessage());
 		UserInfo user = mUserGenerator.anyUser();
-		GiftSvcApi giftApi = UserSessionsFactory.getRestAdapterForUser(ApplicationConsts.SERVER_URL, user.getName(), UsersGenerator.DEFAULT_PASSWORD).create(GiftSvcApi.class);
+		GiftSvcApi giftApi = UserSessionsFactory.getRestAdapterForUser(ApplicationSettings.SERVER_URL, user.getName(), UsersGenerator.DEFAULT_PASSWORD).create(GiftSvcApi.class);
 		try
 		{
 			int i = sRandom.nextInt(20);

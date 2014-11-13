@@ -195,11 +195,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 				List<GiftInfo> gifts = null;
 				try
 				{
-					Collection<GiftInfo> giftsOrigin = getGifts();
-					if (giftsOrigin != null)
-					{
-						gifts = Lists.newArrayList(giftsOrigin);
-					}
+					gifts = prepareGifts(getGifts(), getActivity());
 				}
 				catch (RetrofitError ex)
 				{
@@ -230,6 +226,29 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 			}
 		};
 		mReloadTask.execute();
+	}
+	
+	private List<GiftInfo> prepareGifts(Collection<GiftInfo> gifts, Context context) throws RetrofitError
+	{
+		if (gifts == null || context == null)
+		{
+			return null;
+		}
+		List<GiftInfo> reverseGifts = Lists.newArrayList(gifts);
+		if (!ApplicationSettings.showBadGifts(context))
+		{
+			List<GiftInfo> result = Lists.newArrayList();
+			for (GiftInfo gift : reverseGifts)
+			{
+				Vote vote = gift.getVote(); 
+				if (vote == null || vote.getVote() >= 0)
+				{
+					result.add(gift);
+				}
+			}
+			reverseGifts = result;
+		}
+		return reverseGifts;
 	}
 	
 	protected abstract Collection<GiftInfo> getGifts();
