@@ -114,6 +114,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 					}
 					giftInfo.setWasTouched(true);
 					Gift gift = giftInfo.getGift();
+					gift.setRating(gift.getRating() + 1);
 					
 					Activity activity = getActivity();
 					if (activity != null)
@@ -123,7 +124,6 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 					}
 					
 					mAdapter.updateView(view, giftInfo);
-					// TODO show single gift
 				}
 			}
 		});

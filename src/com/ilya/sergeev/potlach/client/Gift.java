@@ -11,6 +11,7 @@ public class Gift
 	private String title;
 	private String message = null;
 	private String contentType = "image/jpg";
+	private int rating;
 	
 	private long date = System.currentTimeMillis();
 	
@@ -98,5 +99,15 @@ public class Gift
 	public void setContentType(String contentType)
 	{
 		this.contentType = contentType;
+	}
+	
+	public int getRating()
+	{
+		return rating;
+	}
+	
+	public void setRating(int rating)
+	{
+		this.rating = rating;
 	}
 }

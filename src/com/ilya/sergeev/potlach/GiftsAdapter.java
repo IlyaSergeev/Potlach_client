@@ -79,6 +79,8 @@ public class GiftsAdapter extends BaseAdapter
 		Gift gift = giftInfo.getGift();
 		Vote vote = giftInfo.getVote();
 		
+		TextView touchesTextView = (TextView) convertView.findViewById(R.id.touches_view);
+		touchesTextView.setText(String.valueOf(gift.getRating()));
 		final ImageButton likeButton = (ImageButton) convertView.findViewById(R.id.like_button);
 		final ImageButton dislikeButton = (ImageButton) convertView.findViewById(R.id.dislike_button);
 		likeButton.setEnabled(true);
