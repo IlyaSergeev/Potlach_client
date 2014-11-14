@@ -23,7 +23,6 @@ public interface GiftSvcApi
 	public static final String MY_GIFT_PATH = GIFT_PATH + "/my";
 	public static final String SEARCH_GIFT_PATH = GIFT_PATH + "/search";
 	public static final String CREATE_GIFT_PATH = GIFT_PATH + "/create";
-	public static final String SAVE_GIFT_PATH = GIFT_PATH + "/save";
 	public static final String GIFT_DATA_PATH = SINGLE_GIFT_PATH + "/data";
 	
 	public static final String ID_PARAM = "id";
@@ -48,9 +47,6 @@ public interface GiftSvcApi
 	
 	@POST(CREATE_GIFT_PATH)
 	public Gift createGift(@Body Gift gift);
-	
-	@POST(SAVE_GIFT_PATH)
-	public Gift saveGift(@Body Gift gift);
 	
 	@Multipart
 	@POST(GIFT_DATA_PATH)
