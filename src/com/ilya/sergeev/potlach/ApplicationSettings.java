@@ -10,6 +10,8 @@ public final class ApplicationSettings
 	}
 	
 	public static final String CLIENT_ID = "mobile";
+	
+	//Server url
 	public static final String SERVER_URL = "http://192.168.2.125:8080";
 	
 	private static final String SHOW_BAD_GIFTS_TAG = "show_bad_gifts";
