@@ -55,7 +55,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 			Activity activity = getActivity();
 			if (activity != null)
 			{
-				Intent voteUpIntent = TasksMaker.getVoteUpIntent(activity, giftId);
+				Intent voteUpIntent = TasksMakerService.getVoteUpIntent(activity, giftId);
 				activity.startService(voteUpIntent);
 			}
 		}
@@ -75,7 +75,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 			Activity activity = getActivity();
 			if (activity != null)
 			{
-				Intent voteDownIntent = TasksMaker.getVoteDownIntent(activity, giftId);
+				Intent voteDownIntent = TasksMakerService.getVoteDownIntent(activity, giftId);
 				activity.startService(voteDownIntent);
 			}
 		}
@@ -119,7 +119,7 @@ public abstract class ListOfGiftsFragment extends MainContentFragment
 					Activity activity = getActivity();
 					if (activity != null)
 					{
-						Intent touchIntent = TasksMaker.getTouchIntent(activity, gift.getId());
+						Intent touchIntent = TasksMakerService.getTouchIntent(activity, gift.getId());
 						activity.startService(touchIntent);
 					}
 					

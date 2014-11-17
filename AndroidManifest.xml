@@ -55,7 +55,7 @@
             android:label="@string/title_activity_content_generate" />
 
         <service
-            android:name="com.ilya.sergeev.potlach.TasksMaker"
+            android:name="com.ilya.sergeev.potlach.TasksMakerService"
             android:exported="false" />
     </application>
 

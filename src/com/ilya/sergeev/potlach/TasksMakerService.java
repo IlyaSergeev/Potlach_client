@@ -10,7 +10,7 @@ import com.ilya.sergeev.potlach.client.ServerSvc;
 import com.ilya.sergeev.potlach.client.TouchSvcApi;
 import com.ilya.sergeev.potlach.client.VoteSvcApi;
 
-public class TasksMaker extends IntentService
+public class TasksMakerService extends IntentService
 {
 	private static final String TASK_TAG = "task";
 	
@@ -22,7 +22,7 @@ public class TasksMaker extends IntentService
 	
 	public static Intent getTouchIntent(Context context, long giftId)
 	{
-		Intent voteIntent = new Intent(context, TasksMaker.class);
+		Intent voteIntent = new Intent(context, TasksMakerService.class);
 		voteIntent.putExtra(TASK_TAG, TASK_TOUCH);
 		voteIntent.putExtra(GIFT_ID_TAG, giftId);
 		return voteIntent;
@@ -40,15 +40,15 @@ public class TasksMaker extends IntentService
 	
 	private static Intent getVoteIntent(Context context, String voteTask, long giftId)
 	{
-		Intent voteIntent = new Intent(context, TasksMaker.class);
+		Intent voteIntent = new Intent(context, TasksMakerService.class);
 		voteIntent.putExtra(TASK_TAG, voteTask);
 		voteIntent.putExtra(GIFT_ID_TAG, giftId);
 		return voteIntent;
 	}
 	
-	public TasksMaker()
+	public TasksMakerService()
 	{
-		super(TasksMaker.class.getName());
+		super(TasksMakerService.class.getName());
 	}
 	
 	@Override

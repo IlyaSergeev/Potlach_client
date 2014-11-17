@@ -133,7 +133,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 				.create().show();
 	}
 	
-	private void showCreatePotlachDialog()
+	private void showCreateGiftDialog()
 	{
 		deleteTempImage();
 		File photoFile = null;
@@ -261,7 +261,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 		int id = item.getItemId();
 		if (id == R.id.action_add_gift)
 		{
-			showCreatePotlachDialog();
+			showCreateGiftDialog();
 			return true;
 		}
 		else if (id == R.id.refresh_action)
