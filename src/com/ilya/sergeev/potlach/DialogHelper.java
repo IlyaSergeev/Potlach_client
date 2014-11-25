@@ -7,10 +7,10 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 
 final class DialogHelper
@@ -63,11 +63,11 @@ final class DialogHelper
 		builder.create().show();
 	}
 	
-	public static File createImageFile() throws IOException
+	public static File createImageFile(Context context) throws IOException
 	{
 		String timeStamp = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.DEFAULT, SimpleDateFormat.FULL).format(new Date());
 		String imageFileName = "JPEG_" + timeStamp + "_";
-		File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+		File storageDir = context.getCacheDir();
 		File image = File.createTempFile(
 				imageFileName,
 				".jpg",

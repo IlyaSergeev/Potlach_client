@@ -139,7 +139,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 		File photoFile = null;
 		try
 		{
-			photoFile = DialogHelper.createImageFile();
+			photoFile = DialogHelper.createImageFile(this);
 		}
 		catch (IOException ex)
 		{

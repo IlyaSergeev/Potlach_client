@@ -243,7 +243,7 @@ public class CreateGiftActivity extends ActionBarActivity
 		File photoFile = null;
 		try
 		{
-			photoFile = DialogHelper.createImageFile();
+			photoFile = DialogHelper.createImageFile(this);
 		}
 		catch (IOException ex)
 		{
@@ -335,7 +335,7 @@ public class CreateGiftActivity extends ActionBarActivity
 			File imageFile = null;
 			try
 			{
-				imageFile = DialogHelper.createImageFile();
+				imageFile = DialogHelper.createImageFile(CreateGiftActivity.this);
 				OutputStream out = new FileOutputStream(imageFile);
 				mImageBitmap.compress(CompressFormat.JPEG, 75, out);
 				
